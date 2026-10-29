@@ -16,19 +16,17 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="i-flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
-    <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
-    <symbol id="i-candado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
-    <symbol id="i-capas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3.5l8.5 4.5-8.5 4.5L3.5 8z"/><path d="M3.5 12.5l8.5 4.5 8.5-4.5M3.5 16.5l8.5 4.5 8.5-4.5" opacity=".45"/></symbol>
-    <symbol id="i-mano" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></symbol>
-    <symbol id="i-registro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M9 8h6M9 12h6M9 16h4"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-candado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
   </defs>
 </svg>
 
 <div class="reticula" aria-hidden="true"><i></i><i></i><i></i></div>
 
+<!-- La navegación es una isla flotante: se encoge al bajar -->
 <header class="nav" id="nav">
-  <div class="envoltura nav__in">
-    <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="22" height="25"><b>Médula</b></a>
+  <div class="nav__isla">
+    <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="20" height="23"><b>Médula</b></a>
     <nav class="nav__links" aria-label="Secciones">
       <a href="#hoy">Qué es</a>
       <a href="#comparativa">Con Médula</a>
@@ -36,7 +34,7 @@
       <a href="#seguridad">Seguridad</a>
       <a href="#metodo">Cómo trabajamos</a>
     </nav>
-    <a class="btn btn--chico" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery</a>
+    <a class="btn btn--chico" href="#" data-discovery>Agenda tu Discovery</a>
     <button class="nav__menu" id="nav-menu" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir el menú"><i></i><i></i></button>
   </div>
   <nav class="menu" id="menu-movil" aria-label="Menú">
@@ -45,90 +43,80 @@
     <a href="#como">Cómo funciona</a>
     <a href="#seguridad">Seguridad</a>
     <a href="#metodo">Cómo trabajamos</a>
-    <a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
+    <a class="btn" href="#" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
   </nav>
-  <div class="progreso" aria-hidden="true"><i id="progreso"></i></div>
 </header>
 
 <main id="inicio">
 
-  <!-- 01 · Héroe: el aura de Médula a la derecha; el símbolo flota sobre ella y Médula Lite cuenta lo que está haciendo -->
+  <!-- 01 · Héroe centrado: el aura nace arriba, el símbolo flota y la isla dinámica cuenta lo que Médula está haciendo -->
   <section class="heroe" id="heroe" aria-labelledby="h-heroe">
     <canvas class="heroe__aura" data-aura="heroe" aria-hidden="true"></canvas>
-    <div class="heroe__simbolo" aria-hidden="true">
-      <img src="recursos/medula-marca-blanca.svg" alt="">
-      <span class="lite" data-lite><span class="lite__sim"><img src="recursos/medula-marca-blanca.svg" alt=""></span><span class="lite__txt">Leyendo Bsale…</span></span>
-    </div>
-    <div class="envoltura heroe__in">
-      <p class="eti" data-r>Médula · de Optimizo</p>
+    <div class="heroe__in envoltura" id="heroe-in">
+      <img class="heroe__sim" src="recursos/medula-marca-blanca.svg" alt="" aria-hidden="true">
+      <div class="isla" id="isla" aria-live="polite">
+        <span class="isla__sim"><img src="recursos/medula-marca-blanca.svg" alt=""><i></i></span>
+        <span class="isla__txt" id="isla-txt">Médula</span>
+        <span class="isla__app" id="isla-app"></span>
+        <i class="isla__barra" id="isla-barra"></i>
+      </div>
       <h1 class="heroe__t" id="h-heroe"><span class="arma">El sistema nervioso</span><span class="heroe__linea">de <span class="tipeo" id="tipeo" data-palabras="tu empresa.|tus ventas.|tu operación.|tu gerencia.">tu empresa.</span><i class="cursor" aria-hidden="true"></i></span></h1>
-      <div class="heroe__pie">
-        <p class="bajada" data-r style="--d:.3s">Conectamos tus aplicaciones, sistemas e información en un ecosistema inteligente donde personas y agentes de inteligencia artificial trabajan de manera coordinada, automatizan procesos, ejecutan acciones y toman mejores decisiones.</p>
-        <div class="heroe__acc" data-r style="--d:.45s">
-          <a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
-          <a class="btn btn--claro" href="#como">Mira cómo funciona</a>
-        </div>
+      <p class="bajada" data-r style="--d:.25s">Conectamos tus aplicaciones, sistemas e información en un ecosistema inteligente donde personas y agentes de inteligencia artificial trabajan de manera coordinada, automatizan procesos, ejecutan acciones y toman mejores decisiones.</p>
+      <div class="acciones" data-r style="--d:.4s">
+        <a class="btn" href="#" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
+        <a class="btn btn--claro" href="#como">Mira cómo funciona</a>
       </div>
     </div>
-    <!-- La franja de sistemas: corre de derecha a izquierda y desaparece detrás de la primera línea de la retícula -->
-    <div class="franja" aria-label="Algunos sistemas que conecta Médula">
-      <div class="franja__c franja__rot"><b>+170 sistemas</b><span>se conectan a Médula</span></div>
-      <div class="franja__cinta"><div class="franja__fila" id="franja"></div></div>
+    <!-- Dos cintas de sistemas en sentidos opuestos; desaparecen detrás de las líneas de la retícula -->
+    <div class="franja" aria-label="Algunos de los más de 170 sistemas que conecta Médula">
+      <p class="franja__rot"><b>+170 sistemas</b> se conectan a Médula</p>
+      <div class="franja__cintas">
+        <div class="franja__fila" id="fila-a"></div>
+        <div class="franja__fila franja__fila--b" id="fila-b"></div>
+      </div>
     </div>
   </section>
 
-  <!-- 02 · Hoy: la empresa sabe mucho, pero repartido; cada app escribe su síntoma y la IA no ve nada -->
-  <section class="hoy" id="hoy" aria-labelledby="h-hoy">
-    <div class="envoltura hoy__in">
-      <div class="hoy__izq">
-        <p class="eti" data-r>Hoy</p>
-        <h2 class="t arma" id="h-hoy">Tu empresa sabe mucho. <span class="gris">Pero en nueve apps.</span></h2>
-        <p class="bajada" data-r>Clientes, precios, acuerdos y conversaciones viven repartidos entre WhatsApp, planillas, el CRM y el correo. Y la IA que usa tu equipo no ve nada de eso.</p>
+  <!-- La hoja blanca sube sobre el héroe -->
+  <div class="hoja">
+
+  <!-- 02 · La escena fija: las apps sueltas escriben su problema al ritmo del scroll, la IA confiesa que no ve nada,
+       todo se junta en el símbolo y la frase se enciende hasta «Eso es Médula.» -->
+  <section class="esc" id="hoy" aria-labelledby="h-hoy">
+    <div class="esc__fijo">
+      <div class="esc__cab" id="esc-cab">
+        <span class="tag"><b>01</b>Hoy</span>
+        <h2 class="t" id="h-hoy">Tu empresa sabe mucho. <span class="gris">Pero en nueve apps.</span></h2>
       </div>
-      <div class="mesa" id="mesa">
-        <div class="ven" style="--x:0;--y:0">
-          <div class="ven__cab"><img src="recursos/logos/whatsapp.svg" alt="">WhatsApp<small>Equipo comercial</small></div>
-          <p><span class="tipeo" data-palabras="¿Alguien tiene el último precio que le dimos?" data-una></span><i class="cursor"></i></p>
-        </div>
-        <div class="ven" style="--x:1;--y:0">
-          <div class="ven__cab"><img src="recursos/logos/microsoftexcel.svg" alt="">Excel<small>Precios_FINAL (3).xlsx</small></div>
-          <p><span class="tipeo ven--mono" data-palabras="#REF!" data-una></span><i class="cursor"></i></p>
-        </div>
-        <div class="ven" style="--x:0;--y:1">
-          <div class="ven__cab"><img src="recursos/logos/gmail.svg" alt="">Gmail<small>Recibidos</small></div>
-          <p><span class="tipeo" data-palabras="RE: RE: RE: Acuerdo de despacho" data-una></span><i class="cursor"></i></p>
-        </div>
-        <div class="ven" style="--x:1;--y:1">
-          <div class="ven__cab"><img src="recursos/logos/zoho.svg" alt="">CRM<small>Ficha del cliente</small></div>
-          <p><span class="tipeo" data-palabras="Última actualización: hace 3 meses" data-una></span><i class="cursor"></i></p>
-        </div>
+      <div class="esc__mesa" id="mesa">
+        <div class="ven" data-desde="-1,-.4,-8" style="--x:7%;--y:33%"><div class="ven__cab"><img src="recursos/logos/whatsapp.svg" alt="">WhatsApp<small>Equipo comercial</small></div><p data-txt="¿Alguien tiene el último precio que le dimos?"></p></div>
+        <div class="ven" data-desde="1,-.5,7" style="--x:calc(93% - var(--w));--y:30%"><div class="ven__cab"><img src="recursos/logos/microsoftexcel.svg" alt="">Excel<small>Precios_FINAL (3).xlsx</small></div><p class="mono" data-txt="#REF!"></p></div>
+        <div class="ven" data-desde="-1,.5,6" style="--x:11%;--y:62%"><div class="ven__cab"><img src="recursos/logos/gmail.svg" alt="">Gmail<small>Recibidos</small></div><p data-txt="RE: RE: RE: Acuerdo de despacho"></p></div>
+        <div class="ven" data-desde="1,.6,-6" style="--x:calc(89% - var(--w));--y:60%"><div class="ven__cab"><img src="recursos/logos/zoho.svg" alt="">CRM<small>Ficha del cliente</small></div><p data-txt="Última actualización: hace 3 meses"></p></div>
+        <div class="ven" data-desde="0,1,4" style="--x:calc(50% - var(--w) / 2);--y:80%"><div class="ven__cab"><img src="recursos/logos/googlecalendar.svg" alt="">Calendario<small>Hoy</small></div><p data-txt="10:00 Revisión de precios · 10:00 Reunión con el cliente"></p></div>
         <div class="ia" id="ia">
           <div class="ia__yo">¿Qué le prometimos a este cliente?</div>
-          <div class="ia__resp"><img src="recursos/logos/openai.svg" alt=""><span><span class="tipeo" data-palabras="No tengo acceso a la información de tu empresa." data-una></span><i class="cursor"></i></span></div>
+          <div class="ia__resp"><img src="recursos/logos/openai.svg" alt=""><span data-txt="No tengo acceso a la información de tu empresa."></span></div>
         </div>
       </div>
+      <div class="esc__fin" id="esc-fin">
+        <div class="esc__sim"><img src="recursos/medula-marca.svg" alt=""></div>
+        <p class="frase" id="frase">Imagina que todas las aplicaciones, la información y las personas de tu empresa pudieran trabajar conectadas.</p>
+        <p class="eso" id="eso">Eso es Médula.</p>
+      </div>
+      <div class="esc__barra" aria-hidden="true"><i id="esc-barra"></i></div>
     </div>
   </section>
 
-  <!-- 03 · La frase: la página se detiene hasta que se escribe -->
-  <section class="frase" id="frase" aria-label="Médula">
-    <div class="envoltura frase__in" id="fr">
-      <p class="frase__l frase__l--a"><span class="fant">Imagina que todas las aplicaciones, la información y las personas de tu empresa pudieran trabajar conectadas.</span><span class="vivo"><span class="tipeo" data-palabras="Imagina que todas las aplicaciones, la información y las personas de tu empresa pudieran trabajar conectadas." data-una></span><i class="cursor"></i></span></p>
-      <p class="frase__l frase__l--b"><span class="fant">Eso es Médula.</span><span class="vivo"><span class="tipeo" data-palabras="Eso es Médula." data-una></span><i class="cursor"></i></span></p>
-    </div>
-  </section>
-
-  <!-- 04 · Sin Médula / Con Médula: la misma empresa, dos formas de trabajar -->
+  <!-- 03 · Sin Médula / Con Médula -->
   <section class="cmp" id="comparativa" aria-labelledby="h-cmp">
     <div class="envoltura">
-      <div class="cab2">
-        <div>
-          <p class="eti" data-r>Con Médula</p>
-          <h2 class="t arma" id="h-cmp">La misma empresa. <span class="gris">Otra forma de trabajar.</span></h2>
-        </div>
+      <div class="cab">
+        <span class="tag" data-r><b>02</b>Con Médula</span>
+        <h2 class="t arma" id="h-cmp">La misma empresa. <span class="gris">Otra forma de trabajar.</span></h2>
         <p class="bajada" data-r>Médula transforma datos dispersos en información confiable y acciones coordinadas que optimizan recursos, potencian equipos y agilizan decisiones.</p>
       </div>
-      <div class="tabla" id="tabla" role="table" aria-label="Sin Médula y con Médula">
+      <div class="tabla" role="table" aria-label="Sin Médula y con Médula">
         <div class="tabla__cab" role="row"><span role="columnheader"></span><span role="columnheader">Sin Médula</span><span role="columnheader" class="tabla__con"><img src="recursos/medula-marca.svg" alt="">Con Médula</span></div>
         <div class="fila" role="row"><b role="rowheader">La información</b><span role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</span><span role="cell" class="tabla__con">Conectada en un solo ecosistema inteligente.</span></div>
         <div class="fila" role="row"><b role="rowheader">La IA de tu equipo</b><span role="cell">Responde sin conocer tu empresa.</span><span role="cell" class="tabla__con">ChatGPT y Claude trabajan con el contexto de tu empresa.</span></div>
@@ -140,66 +128,77 @@
     </div>
   </section>
 
-  <!-- 05 · Cómo funciona: cuatro pasos a la izquierda que avanzan junto con la conversación de la derecha -->
+  <!-- 04 · Cómo funciona: dos tarjetas; a la izquierda la conversación, a la derecha los pasos que se despliegan -->
   <section class="como" id="como" aria-labelledby="h-como">
     <div class="envoltura">
-      <div class="cab2">
-        <div>
-          <p class="eti" data-r>Cómo funciona</p>
-          <h2 class="t arma" id="h-como">Personas y agentes de IA, <span class="gris">con un mismo contexto.</span></h2>
-        </div>
-        <p class="bajada" data-r>Preguntas como siempre. Médula busca en cada sistema, cita sus fuentes y, cuando lo apruebas, ejecuta.</p>
+      <div class="cab">
+        <span class="tag" data-r><b>03</b>Cómo funciona</span>
+        <h2 class="t arma" id="h-como">Personas y agentes de IA, <span class="gris">con un mismo contexto.</span></h2>
       </div>
       <div class="como__in" id="como-in">
-        <ol class="pasos">
-          <li class="paso activo"><button><span class="paso__n">01</span><h3>Conecta</h3><p>Integra tus aplicaciones, sistemas e información en un solo ecosistema.</p><i class="paso__barra"></i></button></li>
-          <li class="paso"><button><span class="paso__n">02</span><h3>Entiende</h3><p>Convierte información dispersa en conocimiento útil, y cita de dónde sale.</p><i class="paso__barra"></i></button></li>
-          <li class="paso"><button><span class="paso__n">03</span><h3>Decides tú</h3><p>Médula propone y confirma contigo antes de escribir en tus sistemas.</p><i class="paso__barra"></i></button></li>
-          <li class="paso"><button><span class="paso__n">04</span><h3>Actúa</h3><p>Los agentes coordinan tareas, automatizan procesos y ejecutan la acción.</p><i class="paso__barra"></i></button></li>
-        </ol>
-        <div class="demo">
+        <div class="carta carta--demo">
           <div class="chat" id="chat" data-fase="0" aria-live="polite">
             <div class="chat__cab"><img src="recursos/medula-marca.svg" alt="">Médula<span>Ejemplo</span></div>
             <div class="msj chat__yo">¿Qué cotizaciones de Quillay siguen abiertas?</div>
-            <div class="msj chat__lite" data-f="1"><span class="lite__sim"><img src="recursos/medula-marca-blanca.svg" alt=""></span><span>Revisando Bsale, Gmail y Zoho…</span></div>
+            <div class="msj chat__lite" data-f="1"><span class="isla__sim isla__sim--chico"><img src="recursos/medula-marca-blanca.svg" alt=""><i></i></span><span>Revisando Bsale, Gmail y Zoho…</span></div>
             <div class="msj chat__resp" data-f="2">Tres, por <b>$18,4 M</b>. La más antigua lleva <b>12 días</b> sin respuesta. ¿Le escribo a Camila para hacer seguimiento?
               <div class="cita"><span><img src="recursos/logos/bsale.png" alt="">Bsale</span><span><img src="recursos/logos/gmail.svg" alt="">Gmail</span><span><img src="recursos/logos/zoho.svg" alt="">Zoho CRM</span></div>
               <div class="chat__botones"><span class="si">Sí, escríbele</span><span>Ahora no</span></div>
             </div>
             <div class="msj chat__hecho" data-f="4"><svg><use href="#i-ok"/></svg>Correo enviado a Camila · seguimiento creado en Zoho</div>
           </div>
-          <div class="desde">Úsalo desde <span><img src="recursos/logos/claude.svg" alt="">Claude</span><span><img src="recursos/logos/openai.svg" alt="">ChatGPT</span>la app de escritorio o la web.</div>
+          <div class="desde">Úsalo desde <span><img src="recursos/logos/claude.svg" alt="">Claude</span><span><img src="recursos/logos/openai.svg" alt="">ChatGPT</span></div>
+        </div>
+        <div class="carta carta--pasos">
+          <p class="carta__rot">Pregunta. Médula actúa.</p>
+          <h3 class="carta__t">Busca en cada sistema, cita sus fuentes y, cuando lo apruebas, ejecuta.</h3>
+          <ol class="pasos">
+            <li class="paso activo"><button><span class="paso__n">1</span><b>Conecta</b><p>Integra tus aplicaciones, sistemas e información en un solo ecosistema.</p><i class="paso__barra"></i></button></li>
+            <li class="paso"><button><span class="paso__n">2</span><b>Entiende</b><p>Convierte información dispersa en conocimiento útil, y cita de dónde sale.</p><i class="paso__barra"></i></button></li>
+            <li class="paso"><button><span class="paso__n">3</span><b>Decides tú</b><p>Médula propone y confirma contigo antes de escribir en tus sistemas.</p><i class="paso__barra"></i></button></li>
+            <li class="paso"><button><span class="paso__n">4</span><b>Actúa</b><p>Los agentes coordinan tareas, automatizan procesos y ejecutan la acción.</p><i class="paso__barra"></i></button></li>
+          </ol>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 06 · Seguridad: cuatro columnas sobre la retícula -->
+  <!-- 05 · Seguridad: cuatro tarjetas, cada una con su pedazo de interfaz funcionando -->
   <section class="seg" id="seguridad" aria-labelledby="h-seg">
     <div class="envoltura">
-      <div class="cab2">
-        <div>
-          <p class="eti" data-r>Seguridad</p>
-          <h2 class="t arma" id="h-seg">Conectada, <span class="gris">no expuesta.</span></h2>
-        </div>
-        <p class="bajada" data-r>La información de tu empresa es tuya. Médula la usa solo para responder y trabajar, con tus permisos. <a class="enlace" href="https://medula.condorai.cl/seguridad/">Cómo cuidamos tu información <svg><use href="#i-flecha"/></svg></a></p>
+      <div class="cab">
+        <span class="tag" data-r><b>04</b>Seguridad</span>
+        <h2 class="t arma" id="h-seg">Conectada, <span class="gris">no expuesta.</span></h2>
+        <p class="bajada" data-r>La información de tu empresa es tuya. Médula la usa solo para responder y trabajar, con los permisos de cada persona.</p>
       </div>
-      <div class="seg__grilla">
-        <div class="seg__c" data-r><svg><use href="#i-candado"/></svg><b>Cifrado de punta a punta</b><p>Lo que conectas viaja y se guarda cifrado.</p></div>
-        <div class="seg__c" data-r style="--d:.06s"><svg><use href="#i-capas"/></svg><b>Una base por empresa</b><p>Tu información vive separada de la de cualquier otra empresa.</p></div>
-        <div class="seg__c" data-r style="--d:.12s"><svg><use href="#i-mano"/></svg><b>Confirma antes de escribir</b><p>Nada se envía ni se modifica en tus sistemas sin tu aprobación.</p></div>
-        <div class="seg__c" data-r style="--d:.18s"><svg><use href="#i-registro"/></svg><b>Todo queda registrado</b><p>Cada acción de la IA queda en un registro que puedes revisar.</p></div>
+      <div class="bento">
+        <article class="bc" data-r>
+          <div class="bc__vista"><div class="cifra"><svg><use href="#i-candado"/></svg><span id="cifra">cotizacion_quillay.pdf</span></div></div>
+          <h3>Cifrado de punta a punta</h3><p>Lo que conectas viaja y se guarda cifrado.</p>
+        </article>
+        <article class="bc" data-r style="--d:.06s">
+          <div class="bc__vista"><div class="bases"><i></i><i class="tuya"><b>Tu empresa</b></i><i></i></div></div>
+          <h3>Una base por empresa</h3><p>Tu información vive separada de la de cualquier otra empresa.</p>
+        </article>
+        <article class="bc" data-r style="--d:.12s">
+          <div class="bc__vista"><div class="permiso" id="permiso"><small>Médula quiere</small><b>Enviar un correo a Camila</b><div><span class="si">Aprobar</span><span>Ahora no</span></div></div></div>
+          <h3>Confirma antes de escribir</h3><p>Nada se envía ni se modifica en tus sistemas sin tu aprobación.</p>
+        </article>
+        <article class="bc" data-r style="--d:.18s">
+          <div class="bc__vista"><ol class="log" id="log"><li><em>10:42</em>Leyó Bsale</li><li><em>10:42</em>Citó 3 fuentes</li><li><em>10:43</em>Pidió aprobación</li><li><em>10:43</em>Envió el correo · aprobado</li></ol></div>
+          <h3>Todo queda registrado</h3><p>Cada acción de la IA queda en un registro que puedes revisar.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- 07 · Preguntas -->
+  <!-- 06 · Preguntas -->
   <section class="fq" id="preguntas" aria-labelledby="h-fq">
     <div class="envoltura fq__in">
       <div class="fq__izq">
-        <p class="eti" data-r>Preguntas</p>
+        <span class="tag" data-r><b>05</b>Preguntas</span>
         <h2 class="t arma" id="h-fq">Lo que todos nos preguntan.</h2>
-        <div class="fq__otra" data-r><b>¿Tienes otra duda?</b><p>Cuéntanos qué necesitas mejorar.</p><a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a></div>
+        <div class="fq__otra" data-r><b>¿Tienes otra duda?</b><p>Cuéntanos qué necesitas mejorar.</p><a class="btn" href="#" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a></div>
       </div>
       <div class="fq__lista">
         <details><summary><span>01</span>¿Qué es Médula?<i></i></summary><p>Es el sistema nervioso de tu empresa. Conecta tus aplicaciones, sistemas e información en un ecosistema inteligente donde personas y agentes de IA trabajan de manera coordinada.</p></details>
@@ -212,45 +211,50 @@
     </div>
   </section>
 
-  <!-- 08 · Cómo trabajamos (BOFU): las cuatro etapas y el CTA; vuelve el aura desde abajo -->
+  <!-- La frase gigante corre con el scroll -->
+  <div class="gigante" id="gigante" aria-hidden="true"><div class="gigante__in" id="gigante-in"><span>Toda tu empresa, conectada.</span><span>Toda tu empresa, conectada.</span></div></div>
+
+  <!-- 07 · Cómo trabajamos (BOFU): las cuatro etapas y el CTA; el aura vuelve desde abajo -->
   <section class="metodo" id="metodo" aria-labelledby="h-metodo">
     <canvas class="metodo__aura" data-aura="fin" aria-hidden="true"></canvas>
     <div class="envoltura metodo__in">
-      <div class="metodo__cab">
-        <p class="eti" data-r>Cómo trabajamos</p>
+      <div class="cab">
+        <span class="tag" data-r><b>06</b>Cómo trabajamos</span>
         <h2 class="t arma" id="h-metodo">Primero entendemos. Después diseñamos. <span class="gris">Finalmente, medimos.</span></h2>
       </div>
       <ol class="etapas" id="etapas">
-        <li class="etapa activo"><span class="etapa__n">01 · Discovery</span><h3>Descubrimos oportunidades</h3><p>Escuchamos a las personas, conocemos sus procesos y analizamos cómo funciona la operación.</p><i class="etapa__barra"></i></li>
-        <li class="etapa"><span class="etapa__n">02 · Priorizar</span><h3>Evaluamos y priorizamos</h3><p>Consideramos beneficios, costos, complejidad y recursos. Incluimos mejoras rápidas cuando son viables.</p><i class="etapa__barra"></i></li>
-        <li class="etapa"><span class="etapa__n">03 · Conectar</span><h3>Diseñamos e implementamos</h3><p>Por etapas que permiten validar avances, incorporar aprendizajes e integrar lo que ya usas.</p><i class="etapa__barra"></i></li>
-        <li class="etapa"><span class="etapa__n">04 · Medir</span><h3>Medimos y evolucionamos</h3><p>Comparamos la condición anterior con los resultados y acompañamos la evolución.</p><i class="etapa__barra"></i></li>
+        <li class="etapa activo"><span class="etapa__n">01</span><span class="etapa__et">Discovery</span><h3>Descubrimos oportunidades</h3><p>Escuchamos a las personas, conocemos sus procesos y analizamos cómo funciona la operación.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">02</span><span class="etapa__et">Priorizar</span><h3>Evaluamos y priorizamos</h3><p>Consideramos beneficios, costos, complejidad y recursos. Incluimos mejoras rápidas cuando son viables.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">03</span><span class="etapa__et">Conectar</span><h3>Diseñamos e implementamos</h3><p>Por etapas que permiten validar avances, incorporar aprendizajes e integrar lo que ya usas.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">04</span><span class="etapa__et">Medir</span><h3>Medimos y evolucionamos</h3><p>Comparamos la condición anterior con los resultados y acompañamos la evolución.</p><i class="etapa__barra"></i></li>
       </ol>
       <div class="cierre">
-        <h2 class="cierre__t arma" id="h-fin">Toda tu empresa, conectada.</h2>
+        <h2 class="cierre__t arma" id="h-fin">¿Qué podríamos conectar en tu empresa?</h2>
         <p class="bajada" data-r>No necesitas llegar con la solución definida. Cuéntanos qué necesitas mejorar y lo exploramos juntos.</p>
-        <a class="btn btn--grande" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery data-r>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
+        <a class="btn btn--grande" href="#" data-discovery data-r>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
       </div>
     </div>
   </section>
-</main>
 
-<footer class="pie">
-  <div class="envoltura">
-    <div class="pie__arriba">
-      <div class="pie__marca">
-        <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="22" height="25"><b>Médula</b></a>
-        <p>El sistema nervioso de tu empresa.</p>
+  <footer class="pie">
+    <div class="envoltura">
+      <div class="pie__arriba">
+        <div class="pie__marca">
+          <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="20" height="23"><b>Médula</b></a>
+          <p>El sistema nervioso de tu empresa.</p>
+        </div>
+        <nav class="pie__cols" aria-label="Mapa del sitio">
+          <div><h4>Médula</h4><a href="#hoy">Qué es</a><a href="#comparativa">Con Médula</a><a href="#como">Cómo funciona</a><a href="#seguridad">Seguridad</a></div>
+          <div><h4>Empieza</h4><a href="#metodo">Cómo trabajamos</a><a href="#" data-discovery>Agenda tu Discovery</a></div>
+          <div><h4>Contacto</h4><a href="mailto:medula@teamcondorcl.com">medula@teamcondorcl.com</a><a href="https://wa.me/56988989824" target="_blank" rel="noopener">WhatsApp +56 9 8898 9824</a></div>
+        </nav>
       </div>
-      <nav class="pie__cols" aria-label="Mapa del sitio">
-        <div><h4>Médula</h4><a href="#hoy">Qué es</a><a href="#comparativa">Con Médula</a><a href="#como">Cómo funciona</a><a href="#seguridad">Seguridad</a></div>
-        <div><h4>Empieza</h4><a href="#metodo">Cómo trabajamos</a><a href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery</a></div>
-        <div><h4>Contacto</h4><a href="mailto:medula@teamcondorcl.com">medula@teamcondorcl.com</a><a href="https://wa.me/56988989824" target="_blank" rel="noopener">WhatsApp +56 9 8898 9824</a></div>
-      </nav>
+      <div class="pie__abajo"><span>© 2026 Médula, un producto de Optimizo. Hecho en Santiago de Chile.</span></div>
     </div>
-    <div class="pie__abajo"><span>© 2026 Médula, un producto de Optimizo. Hecho en Santiago de Chile.</span></div>
+  </footer>
+
   </div>
-</footer>
+</main>
 
 <script src="medula.js" type="module"></script>
 </body>

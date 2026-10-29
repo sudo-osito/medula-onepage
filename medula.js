@@ -1,12 +1,19 @@
-/* Médula · one-page. Sin dependencias. Partes que vienen de la v6 de Optimizo: títulos que se arman, texto que se escribe,
-   scroll suave con la frase que detiene la página y el aura de Médula (portada de su guion visual). */
+/* Médula · one-page v3. Sin dependencias. Títulos que se arman, aura de Médula (portada de su guion visual), isla dinámica,
+   escena fija atada al scroll (las apps sueltas → «Eso es Médula.») y animaciones que avanzan solas. */
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const QUIETO = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const MOVIL = () => innerWidth < 1020;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const tramo = (k, a, b) => clamp((k - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - clamp(x), 3);
+const lerp = (a, b, k) => a + (b - a) * k;
 const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
+const DISCOVERY = "https://wa.me/56988989824?text=" + encodeURIComponent("Hola, quiero agendar un Discovery de Médula.");
+
+/* Todos los CTA van al Discovery (WhatsApp mientras no haya link propio) */
+$$("[data-discovery]").forEach((a) => { a.href = DISCOVERY; a.target = "_blank"; a.rel = "noopener"; });
 
 /* ── Títulos que se arman palabra por palabra ── */
 $$(".arma").forEach((h) => {
@@ -99,127 +106,148 @@ function aura(cv, op) {
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }, 30);
 }
-// el héroe: la masa a la derecha (arriba en el celular); el cierre: la masa sube desde abajo
 const AURAS = {
-  heroe: { centro: () => (MOVIL() ? [.5, .92] : [.76, .56]), radio: () => (MOVIL() ? .58 : .78), intensidad: 1.15 },
-  fin: { centro: () => [.5, -.12], radio: () => (MOVIL() ? .62 : .72), intensidad: 1.15 },
+  heroe: { centro: () => (MOVIL() ? [.5, 1.06] : [.5, .98]), radio: () => (MOVIL() ? .5 : .66), intensidad: 1.18 },
+  fin: { centro: () => [.5, -.2], radio: () => (MOVIL() ? .56 : .66), intensidad: 1.15 },
 };
 $$("canvas[data-aura]").forEach((cv) => aura(cv, AURAS[cv.dataset.aura]));
 
-/* Médula Lite: cuenta lo que está haciendo */
-const LITE = ["Leyendo Bsale…", "Cruzando con Gmail…", "Actualizando Zoho CRM…", "Listo · 3 cotizaciones abiertas"];
-$$("[data-lite]").forEach((el) => {
-  const txt = $(".lite__txt", el); let i = 0;
-  setInterval(() => { i = (i + 1) % LITE.length; txt.style.opacity = 0; setTimeout(() => { txt.textContent = LITE[i]; txt.style.opacity = 1; }, 280); }, 2200);
-});
+/* ── La isla dinámica: se expande con resorte para contar qué hace Médula, y se recoge entre tareas ── */
+{
+  const isla = $("#isla"), txt = $("#isla-txt"), app = $("#isla-app"), barra = $("#isla-barra");
+  const ESTADOS = [
+    { t: "Leyendo Bsale…", app: "bsale.png" },
+    { t: "Cruzando con Gmail…", app: "gmail.svg" },
+    { t: "Actualizando Zoho CRM…", app: "zoho.svg" },
+    { t: "Listo · 3 cotizaciones abiertas", ok: true },
+    { t: "Médula", corto: true },
+  ];
+  const medir = () => { isla.style.width = "auto"; const w = isla.offsetWidth; return w; };
+  async function pasar(e) {
+    txt.classList.add("sale"); app.classList.add("sale");
+    await esperar(200);
+    txt.textContent = e.t;
+    app.className = "isla__app sale" + (e.ok ? " ok" : "");
+    app.innerHTML = e.ok ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : e.app ? `<img src="recursos/logos/${e.app}" alt="">` : "";
+    app.style.display = e.corto ? "none" : "";
+    isla.classList.toggle("listo", !!(e.ok || e.corto));
+    const antes = isla.offsetWidth; const despues = medir();
+    isla.style.width = antes + "px"; isla.offsetWidth; isla.style.width = despues + "px";
+    isla.classList.add("latido"); setTimeout(() => isla.classList.remove("latido"), 260);
+    await esperar(120);
+    txt.classList.remove("sale"); app.classList.remove("sale");
+  }
+  let i = 0, vivo = false;
+  async function ciclo() {
+    while (vivo) {
+      const e = ESTADOS[i % ESTADOS.length]; await pasar(e);
+      const dur = e.corto ? 900 : e.ok ? 1700 : 1350;
+      barra.style.transition = "none"; barra.style.transform = "scaleX(0)"; barra.offsetWidth;
+      if (!e.ok && !e.corto) { barra.style.transition = `transform ${dur}ms linear`; barra.style.transform = "scaleX(1)"; }
+      await esperar(dur); i++;
+    }
+  }
+  isla.style.width = medir() + "px";
+  if (QUIETO) { txt.textContent = ESTADOS[0].t; } else alVer(isla, () => { if (!vivo) { vivo = true; ciclo(); } }, () => (vivo = false), 0);
+}
 
 /* ── Texto que se escribe y se borra, como un teclado ── */
-function maquina(el, { una = false, ms = 0 } = {}) {
+function maquina(el) {
   const palabras = el.dataset.palabras.split("|");
-  let i = el.textContent ? 1 : 0, vivo = false, turno = 0;
-  const tipear = ms || 62, borrar = 30;
+  let i = 1, vivo = false, turno = 0;
   async function correr() {
     const mio = ++turno, sigue = () => vivo && mio === turno;
-    if (el.textContent) { await esperar(2200); }
+    await esperar(2200);
     while (sigue()) {
       el.classList.add("escribiendo");
       let letras = Array.from(el.textContent);
-      while (letras.length && sigue()) { letras.pop(); el.textContent = letras.join(""); await esperar(borrar); }
+      while (letras.length && sigue()) { letras.pop(); el.textContent = letras.join(""); await esperar(30); }
       const w = Array.from(palabras[i % palabras.length]);
-      for (let k = 1; k <= w.length && sigue(); k++) { el.textContent = w.slice(0, k).join(""); await esperar(tipear + Math.random() * (ms ? ms * .6 : 45)); }
+      for (let k = 1; k <= w.length && sigue(); k++) { el.textContent = w.slice(0, k).join(""); await esperar(62 + Math.random() * 45); }
       el.classList.remove("escribiendo");
-      if (una || !sigue()) { vivo = false; return; }
       i++; await esperar(2400);
     }
   }
-  return {
-    iniciar() { if (vivo) return; if (QUIETO) { el.textContent = palabras[0]; return; } vivo = true; return correr(); },
-    parar() { vivo = false; turno++; el.classList.remove("escribiendo"); },
-  };
+  return { iniciar() { if (vivo || QUIETO) return; vivo = true; correr(); }, parar() { vivo = false; turno++; el.classList.remove("escribiendo"); } };
 }
-
-/* Héroe: la palabra se escribe, espera, se borra y llega la siguiente */
 { const m = maquina($("#tipeo")); alVer($("#heroe"), () => m.iniciar(), () => m.parar(), 0); }
 
-/* ── Hoy: cada app escribe su síntoma, una tras otra; al final la IA confiesa que no ve nada ── */
+/* ── Franja: dos cintas en sentidos opuestos ── */
 {
-  const mesa = $("#mesa"), vens = $$(".ven", mesa), ia = $("#ia");
-  const escribir = async (caja, ms) => { caja.classList.add("on", "escribe"); await esperar(350); await maquina($(".tipeo", caja), { una: true, ms }).iniciar(); caja.classList.remove("escribe"); };
-  let hecho = false;
-  alVer(mesa, async () => {
-    if (hecho) return; hecho = true;
-    for (const v of vens) { await escribir(v, 26); await esperar(180); }
-    await esperar(300); await escribir(ia, 30);
-  }, null, .35);
+  const A = [["zoho.svg", "Zoho"], ["defontana.svg", "Defontana"], ["bsale.png", "Bsale"], ["softland.png", "Softland"], ["shopify.svg", "Shopify"], ["mercadolibre.svg", "Mercado Libre"], ["whatsapp.svg", "WhatsApp"], ["googlecalendar.svg", "Calendario"], ["claude.svg", "Claude"]];
+  const B = [["gmail.svg", "Gmail"], ["microsoftexcel.svg", "Excel"], ["googlesheets.svg", "Sheets"], ["microsoftoutlook.svg", "Outlook"], ["microsoftteams.svg", "Teams"], ["notion.svg", "Notion"], ["slack.svg", "Slack"], ["openai.svg", "ChatGPT"]];
+  const sis = ([img, n]) => `<span class="sis"><img src="recursos/logos/${img}" alt="">${n}</span>`;
+  const llenar = (id, L) => { $(id).innerHTML = [...L, ...L, ...L, ...L].map(sis).join(""); };
+  llenar("#fila-a", A); llenar("#fila-b", B);
 }
 
-/* ── Navegación ── */
-const nav = $("#nav");
-function pintarNav() { nav.classList.toggle("bajo", scrollY > 8); }
-
-/* ── Scroll suave (solo con mouse o trackpad; en el celular queda el nativo) y bloqueo mientras la frase se escribe ── */
-const suave = { y: scrollY, meta: scrollY, activo: false, bloqueado: false, viaje: false };
-{
-  const fino = !QUIETO && matchMedia("(pointer: fine)").matches;
-  const paso = () => {
-    suave.y += (suave.meta - suave.y) * .12;
-    if (Math.abs(suave.meta - suave.y) < .5) { suave.y = suave.meta; suave.activo = false; suave.viaje = false; }
-    scrollTo(0, suave.y);
-    if (suave.activo) requestAnimationFrame(paso);
-  };
-  addEventListener("wheel", (e) => {
-    if (e.ctrlKey) return;
-    if (suave.bloqueado) { e.preventDefault(); return; }
-    if (!fino || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-    e.preventDefault(); suave.viaje = false;
-    if (!suave.activo) suave.y = suave.meta = scrollY;
-    const d = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1);
-    suave.meta = clamp(suave.meta + d, 0, document.documentElement.scrollHeight - innerHeight);
-    if (!suave.activo) { suave.activo = true; requestAnimationFrame(paso); }
-  }, { passive: false });
-  addEventListener("touchmove", (e) => suave.bloqueado && e.preventDefault(), { passive: false });
-  addEventListener("keydown", (e) => { if (suave.bloqueado && [" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "End", "Home"].includes(e.key)) e.preventDefault(); });
-  addEventListener("scroll", () => { if (!suave.activo) suave.y = suave.meta = scrollY; }, { passive: true });
-  // los enlaces internos viajan suave y no se detienen en la frase
-  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
-    const t = a.getAttribute("href") === "#inicio" ? document.body : $(a.getAttribute("href")); if (!t || QUIETO) return;
-    e.preventDefault(); suave.viaje = true; suave.y = scrollY;
-    suave.meta = clamp(t.getBoundingClientRect().top + scrollY - (t === document.body ? 0 : 64), 0, document.documentElement.scrollHeight - innerHeight);
-    if (!suave.activo) { suave.activo = true; requestAnimationFrame(paso); }
-  }));
+/* ── Héroe: al bajar, el contenido se aleja un poco mientras la hoja blanca sube ── */
+const heroeIn = $("#heroe-in");
+function pintarHeroe() {
+  const k = clamp(scrollY / innerHeight);
+  heroeIn.style.transform = `translateY(${k * 60}px) scale(${1 - k * .05})`;
+  heroeIn.style.opacity = 1 - k * .9;
 }
-function irA(y) { suave.activo = false; suave.y = suave.meta = y; scrollTo(0, y); }
 
-/* ── La frase: al llegar, la página se detiene hasta que termina de escribirse ── */
-let pintarFrase = () => {};
+/* ── La escena fija, atada al scroll ──
+   0–.42 las apps entran y escriben · .40–.56 la IA no ve nada · .56–.70 todo se junta en el símbolo
+   · .66–.88 la frase se enciende palabra por palabra · .88–1 «Eso es Médula.» */
+let pintarEscena = () => {};
 {
-  const sec = $("#frase"), ls = $$(".frase__l", sec), ms = ls.map((l, i) => maquina($(".tipeo", l), { una: true, ms: i ? 40 : 7 }));
-  let estado = 0; // 0 esperando · 1 escribiendo · 2 listo
-  async function escribir() {
-    estado = 1; suave.bloqueado = true;
-    const r = sec.getBoundingClientRect(); irA(Math.round(scrollY + r.top + r.height / 2 - innerHeight / 2));
-    const suelta = setTimeout(() => (suave.bloqueado = false), 4500);
-    for (const [i, l] of ls.entries()) { l.classList.add("on"); await ms[i].iniciar(); await esperar(i ? 0 : 260); if (i < ls.length - 1) l.classList.remove("on"); }
-    await esperar(300);
-    clearTimeout(suelta); suave.bloqueado = false; estado = 2;
-  }
-  pintarFrase = () => {
-    if (estado || suave.viaje) return;
-    const r = sec.getBoundingClientRect(), centro = r.top + r.height / 2;
-    if (QUIETO) { if (r.top < innerHeight) { estado = 2; ms.forEach((m) => m.iniciar()); } return; }
-    if (centro <= innerHeight * .55 && r.bottom > innerHeight * .3) escribir();
+  const sec = $("#hoy"), cab = $("#esc-cab"), vens = $$(".ven", sec), ia = $("#ia"), fin = $("#esc-fin"), sim = $(".esc__sim", fin), frase = $("#frase"), eso = $("#eso"), barra = $("#esc-barra");
+  frase.innerHTML = frase.textContent.split(" ").map((w) => `<span>${w}</span>`).join(" ");
+  const palabras = $$("span", frase);
+  const teclear = (el, k) => { const t = el.dataset.txt, n = Math.round(t.length * clamp(k)); if (el._n !== n) { el.textContent = t.slice(0, n); el._n = n; } el.classList.toggle("tecleando", k > 0 && k < 1); };
+  const desde = vens.map((v) => v.dataset.desde.split(",").map(Number));
+  pintarEscena = () => {
+    const r = sec.getBoundingClientRect();
+    const k = QUIETO ? (r.top < innerHeight ? 1 : 0) : clamp(-r.top / (r.height - innerHeight));
+    barra.style.setProperty("--p", k);
+    const junta = eo(tramo(k, .56, .7));
+    // el encabezado se va cuando todo se junta
+    cab.style.opacity = 1 - tramo(k, .54, .62);
+    cab.style.transform = `translateY(${-30 * tramo(k, .54, .62)}px)`;
+    // cada app entra desde su lado, escribe su problema y al final viaja al centro
+    vens.forEach((v, i) => {
+      const a = .02 + i * .07, e = eo(tramo(k, a, a + .1)), [dx, dy, rot] = desde[i];
+      const rv = v.getBoundingClientRect(), cx = innerWidth / 2 - (rv.left + rv.width / 2 - (v._tx || 0)), cy = innerHeight * .5 - (rv.top + rv.height / 2 - (v._ty || 0));
+      const tx = lerp(dx * innerWidth * .35 * (1 - e), cx, junta), ty = lerp(dy * innerHeight * .35 * (1 - e), cy, junta);
+      v._tx = tx; v._ty = ty;
+      const dim = 1 - (MOVIL() ? .75 : .45) * tramo(k, .42, .48) * (1 - junta);
+      v.style.opacity = e * dim * (1 - tramo(k, .62, .69));
+      v.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot * (1 - e) + rot * .25}deg) scale(${lerp(.9 + .1 * e, .3, junta)})`;
+      v.style.filter = `blur(${(1 - e) * 8 + junta * 4}px)`;
+      teclear($("p", v), tramo(k, a + .06, a + .16));
+    });
+    // la pregunta a la IA y su respuesta
+    const ei = eo(tramo(k, .4, .45));
+    ia.style.opacity = ei * (1 - tramo(k, .56, .62));
+    ia.style.transform = `translateX(-50%) translateY(${(1 - ei) * 30}px) scale(${lerp(.96 + .04 * ei, .6, junta)})`;
+    teclear($("[data-txt]", ia), tramo(k, .45, .53));
+    // el símbolo aparece donde todo se juntó, la frase se enciende y llega «Eso es Médula.»
+    const es = eo(tramo(k, .62, .7));
+    sim.style.opacity = es; sim.style.transform = `scale(${.3 + .7 * es}) rotate(${(1 - es) * -40}deg)`;
+    frase.style.opacity = tramo(k, .64, .68);
+    const lit = tramo(k, .66, .86) * palabras.length;
+    palabras.forEach((p, i) => p.classList.toggle("on", i < lit));
+    const ee = eo(tramo(k, .87, .95));
+    eso.style.opacity = ee; eso.style.transform = `translateY(${(1 - ee) * 30}px)`; eso.style.filter = `blur(${(1 - ee) * 10}px)`;
+    eso.style.backgroundPosition = `${100 - tramo(k, .9, 1) * 100}% 0`;
   };
 }
 
-/* ── Cómo funciona: la conversación avanza sola y enciende su paso; un clic salta a ese paso ── */
+/* ── Sin Médula / Con Médula: las filas entran una a una ── */
+{
+  const ob = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visto"); ob.unobserve(e.target); } }), { threshold: .4, rootMargin: "0px 0px -6% 0px" });
+  $$(".fila").forEach((f) => ob.observe(f));
+}
+
+/* ── Cómo funciona: la conversación avanza sola y despliega su paso; un clic salta a ese paso ── */
 {
   const chat = $("#chat"), pasos = $$(".paso"), sec = $("#como-in");
-  const DUR = [3000, 3600, 2200, 3600]; // cuánto dura cada paso: conecta, entiende, decides, actúa
+  const DUR = [2600, 3200, 2000, 3200];
   let actual = 0, t0 = performance.now(), previo = performance.now(), pausa = false;
-  const fase = (f) => {
-    chat.dataset.fase = f;
-    $$(".msj", chat).forEach((m) => m.classList.toggle("on", !m.dataset.f || +m.dataset.f <= f));
-  };
+  const fase = (f) => { chat.dataset.fase = f; $$(".msj", chat).forEach((m) => m.classList.toggle("on", !m.dataset.f || +m.dataset.f <= f)); };
   const ir = (i) => { actual = i; t0 = performance.now(); fase(i + 1); pasos.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); };
   pasos.forEach((p, i) => $("button", p).addEventListener("click", () => ir(i)));
   sec.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && (pausa = true));
@@ -240,22 +268,33 @@ let pintarFrase = () => {};
   }
 }
 
-/* ── La franja del héroe: los sistemas corren hacia la izquierda y desaparecen detrás de la línea ── */
+/* ── Seguridad: cada tarjeta muestra lo suyo ── */
 {
-  const S = [["zoho.svg", "Zoho"], ["defontana.svg", "Defontana"], ["bsale.png", "Bsale"], ["softland.png", "Softland"], ["gmail.svg", "Gmail"], ["whatsapp.svg", "WhatsApp"], ["microsoftexcel.svg", "Excel"], ["googlesheets.svg", "Sheets"], ["shopify.svg", "Shopify"], ["mercadolibre.svg", "Mercado Libre"], ["microsoftoutlook.svg", "Outlook"], ["microsoftteams.svg", "Teams"], ["notion.svg", "Notion"], ["slack.svg", "Slack"], ["googlecalendar.svg", "Calendario"], ["claude.svg", "Claude"], ["openai.svg", "ChatGPT"]];
-  const sis = ([img, n]) => `<span class="sis"><img src="recursos/logos/${img}" alt="">${n}</span>`;
-  $("#franja").innerHTML = [...S, ...S].map(sis).join("");
+  // cifrado: el nombre del archivo se vuelve cifra y vuelve
+  const el = $("#cifra"), claro = el.textContent, HEX = "0123456789abcdef";
+  const cifrar = (k) => Array.from(claro).map((c, i) => (i / claro.length < k ? (c === "." ? "·" : HEX[(Math.random() * 16) | 0]) : c)).join("");
+  let t = 0;
+  bucleVisible(el, () => { t = (t + 1) % 150; const k = t < 50 ? t / 50 : t < 90 ? 1 : 1 - (t - 90) / 50; el.textContent = cifrar(clamp(k)); }, 30);
+  // permiso: el dedo aprueba cada tanto
+  const permiso = $("#permiso");
+  alVer(permiso, () => { if (permiso._i) return; permiso._i = setInterval(() => { permiso.classList.add("toca"); setTimeout(() => permiso.classList.remove("toca"), 700); }, 2200); }, () => { clearInterval(permiso._i); permiso._i = 0; }, .3);
+  // registro: las líneas aparecen una a una y vuelven a empezar
+  const log = $$("#log li");
+  let n = 0;
+  alVer($("#log"), () => { if (log._i) return; log._i = setInterval(() => { if (n === log.length) { log.forEach((l) => l.classList.remove("on")); n = -1; } else log[n].classList.add("on"); n++; }, 800); }, () => { clearInterval(log._i); log._i = 0; }, .3);
 }
 
-/* ── Sin Médula / Con Médula: las filas entran una a una ── */
-{
-  const ob = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visto"); ob.unobserve(e.target); } }), { threshold: .4, rootMargin: "0px 0px -6% 0px" });
-  $$(".fila").forEach((f) => ob.observe(f));
+/* ── La frase gigante corre según el scroll ── */
+const gig = $("#gigante"), gigIn = $("#gigante-in");
+function pintarGigante() {
+  const r = gig.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+  const k = clamp((innerHeight - r.top) / (innerHeight + r.height));
+  gigIn.style.transform = `translateX(${-k * gigIn.scrollWidth * .5 + innerWidth * .15}px)`;
 }
 
 /* ── Cómo trabajamos: la etapa activa avanza sola; un clic elige ── */
 {
-  const sec = $("#etapas"), etapas = $$(".etapa", sec), DUR = 5000;
+  const sec = $("#etapas"), etapas = $$(".etapa", sec), DUR = 4500;
   let actual = 0, t0 = performance.now(), pausa = false, previo = performance.now();
   const ir = (i) => { actual = i; t0 = performance.now(); etapas.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); };
   etapas.forEach((p, i) => p.addEventListener("click", () => ir(i)));
@@ -270,7 +309,40 @@ let pintarFrase = () => {};
   }, 30);
 }
 
-/* ── Menú del celular y progreso de lectura ── */
+/* ── Scroll suave (solo con mouse o trackpad; en el celular queda el nativo) ── */
+{
+  const fino = !QUIETO && matchMedia("(pointer: fine)").matches;
+  const s = { y: scrollY, meta: scrollY, activo: false };
+  const paso = () => {
+    s.y += (s.meta - s.y) * .12;
+    if (Math.abs(s.meta - s.y) < .5) { s.y = s.meta; s.activo = false; }
+    scrollTo(0, s.y);
+    if (s.activo) requestAnimationFrame(paso);
+  };
+  const ir = (meta) => { s.meta = clamp(meta, 0, document.documentElement.scrollHeight - innerHeight); if (!s.activo) { s.activo = true; s.y = scrollY; requestAnimationFrame(paso); } };
+  addEventListener("wheel", (e) => {
+    if (e.ctrlKey || !fino || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    if (!s.activo) s.y = s.meta = scrollY;
+    ir(s.meta + e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? innerHeight : 1));
+  }, { passive: false });
+  addEventListener("scroll", () => { if (!s.activo) s.y = s.meta = scrollY; }, { passive: true });
+  $$('a[href^="#"]:not([data-discovery])').forEach((a) => a.addEventListener("click", (e) => {
+    const h = a.getAttribute("href"), t = h === "#inicio" ? document.body : $(h); if (!t || QUIETO) return;
+    e.preventDefault(); s.meta = scrollY;
+    // la escena fija se muestra completa al llegar a «Qué es»
+    ir(t === document.body ? 0 : t.getBoundingClientRect().top + scrollY - (h === "#hoy" ? 0 : 90));
+  }));
+}
+
+/* ── Navegación: se encoge al bajar y marca la sección en la que estás; menú del celular ── */
+const nav = $("#nav"), enlaces = $$(".nav__links a");
+function pintarNav() {
+  nav.classList.toggle("bajo", scrollY > 40);
+  let aqui = null;
+  enlaces.forEach((a) => { const t = $(a.getAttribute("href")); if (t && t.getBoundingClientRect().top < innerHeight * .4) aqui = a; });
+  enlaces.forEach((a) => a.classList.toggle("aqui", a === aqui));
+}
 {
   const boton = $("#nav-menu"), menu = $("#menu-movil");
   const cerrar = () => { nav.classList.remove("abierto"); boton.setAttribute("aria-expanded", false); boton.setAttribute("aria-label", "Abrir el menú"); };
@@ -278,11 +350,9 @@ let pintarFrase = () => {};
   $$("a", menu).forEach((a) => a.addEventListener("click", cerrar));
   addEventListener("keydown", (e) => e.key === "Escape" && cerrar());
 }
-const progreso = $("#progreso");
-function pintarProgreso() { progreso.style.setProperty("--p", clamp(scrollY / (document.documentElement.scrollHeight - innerHeight))); }
 
 /* ── Un solo bucle de scroll ── */
 let pendiente = false;
-function alScroll() { if (pendiente) return; pendiente = true; requestAnimationFrame(() => { pendiente = false; pintarNav(); pintarProgreso(); pintarFrase(); }); }
+function alScroll() { if (pendiente) return; pendiente = true; requestAnimationFrame(() => { pendiente = false; pintarNav(); pintarHeroe(); pintarEscena(); pintarGigante(); }); }
 addEventListener("scroll", alScroll, { passive: true }); addEventListener("resize", alScroll);
 alScroll();
