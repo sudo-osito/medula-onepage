@@ -168,25 +168,27 @@ section[id] { scroll-margin-top: 90px; }
 .cmp { padding: 80px 0 60px; }
 .vs { position: relative; display: grid; grid-template-columns: 1fr 200px 1fr; isolation: isolate; }
 .vs__panel { position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(50% + 100px); right: 0; border-radius: 32px; background: linear-gradient(180deg, var(--hielo), #fff 85%); box-shadow: inset 0 0 0 1px rgba(27, 117, 253, .12), 0 50px 90px -60px rgba(8, 83, 224, .55); overflow: hidden; }
+.vs__panel--sin { left: 0; right: calc(50% + 100px); background: var(--nube); box-shadow: none; }
+.vs__panel--sin::before, .vs__panel--sin::after { display: none; }
 .vs__panel::before { content: ""; position: absolute; left: 40px; top: 84px; bottom: 50px; width: 2px; border-radius: 2px; background: rgba(27, 117, 253, .14); }
 .vs__nervio { position: absolute; left: 40px; top: 84px; bottom: 50px; width: 2px; border-radius: 2px; background: linear-gradient(180deg, var(--aire), var(--impulso), var(--nucleo)); transform-origin: top; transform: scaleY(var(--p, 0)); box-shadow: 0 0 12px rgba(27, 117, 253, .6); }
 .vs__panel::after { content: ""; position: absolute; width: 60%; height: 50%; right: -16%; bottom: -16%; border-radius: 50%; background: var(--aire); opacity: .22; filter: blur(70px); }
 .vs__cab, .vs__fila { display: contents; }
 .vs__cab > span { padding: 28px 0 22px; font-size: 14px; font-weight: 600; }
-.vs__sin-cab { text-align: right; padding-right: 32px !important; color: var(--texto-3); }
+.vs__sin-cab { text-align: right; padding-right: 32px !important; color: var(--texto-2); }
 .vs__con-cab { display: flex; align-items: center; gap: 9px; padding-left: 70px !important; color: var(--tinta); }
 .vs__con-cab img { width: 20px; }
 .vs__sin, .vs__tema, .vs__con { display: flex; align-items: center; min-height: 104px; }
-.vs__sin { justify-content: flex-end; text-align: right; padding: 10px 32px 10px 0; font-size: 16px; color: var(--texto-3); text-decoration: line-through; text-decoration-color: rgba(154, 162, 177, 0); transition: opacity .8s var(--llegada), transform .9s var(--llegada), text-decoration-color .6s .2s, filter .8s; }
+.vs__sin { justify-content: flex-end; text-align: right; padding: 10px 32px 10px 36px; font-size: 16.5px; font-weight: 500; letter-spacing: -.015em; color: #3E4757; transition: color .6s; }
 .vs__tema { justify-content: center; text-align: center; padding: 10px 12px; font-size: 15px; font-weight: 600; letter-spacing: -.02em; color: var(--texto-2); border-top: 1px solid var(--linea); transition: color .5s; }
-.vs__sin { border-top: 1px solid var(--linea); }
-.vs__fila:nth-child(3) > .vs__sin, .vs__fila:nth-child(3) > .vs__tema { border-top-color: transparent; }
+.vs__sin { border-top: 1px solid rgba(6, 16, 46, .06); }
+.vs__cab + .vs__fila > .vs__sin, .vs__cab + .vs__fila > .vs__tema { border-top-color: transparent; }
 .vs__con { position: relative; padding: 10px 28px 10px 70px; font-size: clamp(1.1rem, 1rem + .4vw, 1.35rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.25; color: var(--apagado); transition: color .6s; }
 .vs__nodo { position: absolute; left: 34px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px rgba(27, 117, 253, .25); transition: background .4s, box-shadow .5s, transform .6s var(--resorte); }
 .vs__fila.on .vs__con { color: var(--tinta); }
 .vs__fila.on .vs__nodo { background: var(--impulso); transform: scale(1.15); box-shadow: 0 0 0 5px rgba(27, 117, 253, .18), 0 0 18px rgba(27, 117, 253, .7); }
 .vs__fila.on .vs__tema { color: var(--tinta); }
-.vs__fila.on .vs__sin { opacity: .55; transform: translateX(-10px); filter: blur(.4px); text-decoration-color: rgba(154, 162, 177, .8); }
+.vs__fila.on .vs__sin { color: #5B6475; }
 
 /* ── Cómo funciona: dos tarjetas ── */
 .como { padding: 140px 0 60px; }
@@ -343,10 +345,9 @@ section[id] { scroll-margin-top: 90px; }
   .vs__fila { display: grid; padding: 22px 0; border-top: 1px solid var(--linea); gap: 8px; }
   .vs__sin, .vs__tema, .vs__con { min-height: 0; border: 0 !important; }
   .vs__tema { order: -1; justify-content: flex-start; padding: 0; font-size: 13px; color: var(--texto-3); }
-  .vs__sin { justify-content: flex-start; text-align: left; padding: 0; font-size: 15px; }
+  .vs__sin { justify-content: flex-start; text-align: left; padding: 14px 16px; border-radius: 16px; background: var(--nube); font-size: 15.5px; }
   .vs__con { padding: 14px 16px 14px 40px; border-radius: 16px; background: var(--hielo); font-size: 1.1rem; }
   .vs__nodo { left: 14px; }
-  .vs__fila.on .vs__sin { transform: none; }
   .como__in { grid-template-columns: 1fr; }
   .carta--demo, .carta--pasos { padding: 18px; border-radius: 28px; }
   .carta--pasos { padding: 28px 18px 18px; }
