@@ -260,7 +260,8 @@ function pintarVs() {
   const DUR = [2600, 3200, 2000, 3200];
   let actual = 0, t0 = performance.now(), previo = performance.now(), pausa = false;
   const fase = (f) => { chat.dataset.fase = f; $$(".msj", chat).forEach((m) => m.classList.toggle("on", !m.dataset.f || +m.dataset.f <= f)); };
-  const ir = (i) => { actual = i; t0 = performance.now(); fase(i + 1); pasos.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); };
+  const desc = $("#paso-desc");
+  const ir = (i) => { actual = i; t0 = performance.now(); fase(i + 1); pasos.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); desc.textContent = $("p", pasos[i]).textContent; };
   pasos.forEach((p, i) => $("button", p).addEventListener("click", () => ir(i)));
   sec.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && (pausa = true));
   sec.addEventListener("pointerleave", () => (pausa = false));
@@ -296,6 +297,20 @@ function pintarVs() {
   alVer($("#log"), () => { if (log._i) return; log._i = setInterval(() => { if (n === log.length) { log.forEach((l) => l.classList.remove("on")); n = -1; } else log[n].classList.add("on"); n++; }, 800); }, () => { clearInterval(log._i); log._i = 0; }, .3);
 }
 
+/* ── Celular: seguridad y método se deslizan de lado; los puntos dicen dónde vas ── */
+function carrusel(cont, alCambiar) {
+  const items = [...cont.children], puntos = document.createElement("div");
+  puntos.className = "desliza"; puntos.setAttribute("aria-hidden", "true");
+  puntos.innerHTML = items.map(() => "<i></i>").join(""); cont.after(puntos);
+  const marcar = (i) => [...puntos.children].forEach((p, j) => p.classList.toggle("on", j === i));
+  let t = 0;
+  const cercano = () => { const c = cont.scrollLeft + cont.clientWidth / 2; let m = 0, d = 1e9; items.forEach((el, i) => { const dd = Math.abs(el.offsetLeft + el.offsetWidth / 2 - c); if (dd < d) { d = dd; m = i; } }); return m; };
+  cont.addEventListener("scroll", () => { clearTimeout(t); t = setTimeout(() => { const i = cercano(); marcar(i); alCambiar && alCambiar(i); }, 90); }, { passive: true });
+  marcar(0);
+  return { ir(i) { if (!MOVIL()) return; const el = items[i]; cont.scrollTo({ left: el.offsetLeft - (cont.clientWidth - el.offsetWidth) / 2, behavior: QUIETO ? "auto" : "smooth" }); marcar(i); } };
+}
+carrusel($(".bento"));
+
 /* ── La frase gigante: las dos líneas se encuentran al centro según el scroll ── */
 const gig = $("#gigante"), gigA = $("#gig-a"), gigB = $("#gig-b");
 function pintarGigante() {
@@ -308,11 +323,17 @@ function pintarGigante() {
 /* ── Cómo trabajamos: la etapa activa avanza sola; un clic elige ── */
 {
   const sec = $("#etapas"), etapas = $$(".etapa", sec), DUR = 4500;
-  let actual = 0, t0 = performance.now(), pausa = false, previo = performance.now();
-  const ir = (i) => { actual = i; t0 = performance.now(); etapas.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); };
+  let actual = 0, t0 = performance.now(), pausa = false, previo = performance.now(), solo = 0;
+  const marcar = (i) => { actual = i; t0 = performance.now(); etapas.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); };
+  // si la persona desliza, manda ella: la etapa centrada queda activa
+  const car = carrusel(sec, (i) => { if (performance.now() < solo) return; if (i !== actual) marcar(i); });
+  const ir = (i) => { marcar(i); solo = performance.now() + 700; car.ir(i); };
   etapas.forEach((p, i) => p.addEventListener("click", () => ir(i)));
   sec.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && (pausa = true));
   sec.addEventListener("pointerleave", () => (pausa = false));
+  let suelta = 0;
+  sec.addEventListener("touchstart", () => { pausa = true; clearTimeout(suelta); }, { passive: true });
+  sec.addEventListener("touchend", () => { suelta = setTimeout(() => (pausa = false), 4000); }, { passive: true });
   if (QUIETO) etapas.forEach((p) => p.classList.add("activo"));
   else bucleVisible(sec, () => {
     const ahora = performance.now(), dt = ahora - previo; previo = ahora;

@@ -233,6 +233,7 @@ section[id] { scroll-margin-top: 90px; }
 .paso.activo .paso__n { background: var(--tinta); color: #fff; }
 .paso.activo b { color: var(--tinta); }
 .paso.activo p { max-height: 5em; opacity: 1; margin-top: 4px; }
+.paso__desc, .desliza { display: none; }
 .paso__barra { position: absolute; left: 18px; right: 18px; bottom: 0; height: 2px; background: linear-gradient(90deg, var(--aire), var(--nucleo)); transform-origin: left; transform: scaleX(0); }
 .paso.activo .paso__barra { transform: scaleX(var(--prog, 0)); }
 
@@ -386,4 +387,81 @@ section[id] { scroll-margin-top: 90px; }
 @media (prefers-reduced-motion: reduce) {
   .cursor, .onda, .heroe__halo, .heroe__sim, .franja__fila, .carta--demo::before, .carta--demo::after, .heroe__sim, .isla__sim i, .bases .tuya { animation: none; }
   .arma .pal > span, [data-r] { filter: none; }
+}
+
+/* ── Celular: el recorrido compacto (PC no cambia) ── */
+@media (max-width: 560px) {
+  /* héroe completo en la primera pantalla, con la franja a la vista */
+  .heroe { padding-top: 74px; }
+  .heroe__in { padding-bottom: 26px; }
+  .heroe__sim { width: 118px; }
+  .heroe .isla { margin-top: 2px; }
+  .heroe__t { margin-top: 20px; font-size: 2.55rem; }
+  .heroe .bajada { margin-top: 16px; font-size: 15px; line-height: 1.45; }
+  .acciones { margin-top: 20px; flex-direction: row; gap: 8px; }
+  .acciones .btn { flex: 1; height: 48px; padding: 0 12px; font-size: 14.5px; }
+  .franja { padding: 12px 0 58px; }
+  .franja__rot { margin-bottom: 8px; font-size: 12.5px; }
+  .sis { height: 34px; }
+  .hoja { margin-top: -40px; border-radius: 32px 32px 0 0; }
+  /* secciones más juntas */
+  .esc { height: 290vh; }
+  .cmp { padding-top: 40px; }
+  .como, .seg, .fq { padding-top: 76px; }
+  .metodo { padding-top: 76px; }
+  .cab { gap: 16px; margin-bottom: 28px; }
+  .t { font-size: 2.15rem; }
+  /* tabla: «hoy» en una línea chica y Médula en su tarjeta; las líneas de la retícula no cruzan el texto */
+  .vs { background: #fff; }
+  .vs__fila { padding: 16px 0; gap: 6px; }
+  .vs__sin { display: block; padding: 0; border-radius: 0; background: none; font-size: 14.5px; color: var(--texto-2); }
+  .vs__sin::before { content: "Hoy · "; font-weight: 600; color: var(--texto-3); white-space: pre; }
+  .vs__con { padding: 12px 14px 12px 38px; font-size: 1.05rem; }
+  .vs__nodo { left: 13px; }
+  /* cómo funciona: los pasos arriba en 2 × 2 y la conversación justo debajo, en una sola vista */
+  .como__in { gap: 10px; }
+  .carta--pasos { order: -1; padding: 20px 14px 16px; }
+  .carta__rot, .carta__t { padding: 0 4px; }
+  .carta__t { display: none; }
+  .pasos { grid-template-columns: 1fr 1fr; gap: 6px; padding-top: 14px; }
+  .paso button { grid-template-columns: 24px 1fr; column-gap: 8px; padding: 10px; border-radius: 14px; }
+  .paso__n { width: 24px; height: 24px; border-radius: 7px; font-size: 12px; }
+  .paso b { font-size: 15px; }
+  .paso p, .paso.activo p { display: none; }
+  .paso__barra { left: 10px; right: 10px; }
+  .paso__desc { display: block; min-height: 2.9em; margin-top: 12px; padding: 0 4px; font-size: 14.5px; color: var(--texto-2); }
+  .carta--demo { padding: 12px; gap: 10px; }
+  .chat { min-height: 0; padding: 16px; gap: 10px; }
+  .chat__yo, .chat__resp { font-size: 14.5px; }
+  /* seguridad y método: carruseles que se deslizan de lado */
+  .bento, .etapas { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -20px; padding: 12px 20px 8px; scrollbar-width: none; }
+  .bento::-webkit-scrollbar, .etapas::-webkit-scrollbar { display: none; }
+  .bc, .etapa { flex: 0 0 82%; scroll-snap-align: center; }
+  .bc { padding: 10px 10px 20px; border-radius: 24px; }
+  .bc__vista { height: 140px; margin-bottom: 16px; border-radius: 16px; }
+  .bc h3 { font-size: 17px; }
+  .bc p { font-size: 14px; }
+  .etapa { min-height: 250px; padding: 22px 22px 26px; }
+  .etapa.activo { transform: translateY(-6px); }
+  .etapa h3 { margin-top: auto; }
+  .desliza { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+  .desliza i { width: 6px; height: 6px; border-radius: 3px; background: var(--apagado); transition: width .4s var(--llegada), background .4s; }
+  .desliza i.on { width: 18px; background: var(--tinta); }
+  /* preguntas: la invitación ya está en el cierre */
+  .fq__izq { margin-bottom: 20px; }
+  .fq__otra { display: none; }
+  .fq__lista summary { padding: 20px 0; font-size: 1.02rem; }
+  .fq__lista summary span { width: 22px; }
+  .gigante { padding: 30px 0 0; }
+  .seg { padding-bottom: 30px; }
+  /* cierre y footer compactos */
+  .fin { padding: 80px 0 190px; }
+  .cierre__t { font-size: 2.6rem; }
+  .pie { padding: 40px 0 26px; }
+  .pie__arriba { gap: 26px; }
+  .pie__cols { grid-template-columns: 1fr; gap: 18px; }
+  .pie__cols > div:first-child { display: none; }
+  .pie__cols h4 { margin-bottom: 8px; }
+  .pie__cols a { margin-bottom: 6px; }
+  .pie__abajo { margin-top: 28px; }
 }
