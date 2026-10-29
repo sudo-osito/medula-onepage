@@ -181,9 +181,9 @@ section[id] { scroll-margin-top: 90px; }
 .vs__tema { justify-content: center; text-align: center; padding: 10px 12px; font-size: 15px; font-weight: 600; letter-spacing: -.02em; color: var(--texto-2); border-top: 1px solid var(--linea); transition: color .5s; }
 .vs__sin { border-top: 1px solid var(--linea); }
 .vs__fila:nth-child(3) > .vs__sin, .vs__fila:nth-child(3) > .vs__tema { border-top-color: transparent; }
-.vs__con { position: relative; padding: 10px 28px 10px 70px; font-size: clamp(1.1rem, 1rem + .4vw, 1.35rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.25; color: var(--apagado); transition: color .6s, transform .8s var(--resorte); }
+.vs__con { position: relative; padding: 10px 28px 10px 70px; font-size: clamp(1.1rem, 1rem + .4vw, 1.35rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.25; color: var(--apagado); transition: color .6s; }
 .vs__nodo { position: absolute; left: 34px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px rgba(27, 117, 253, .25); transition: background .4s, box-shadow .5s, transform .6s var(--resorte); }
-.vs__fila.on .vs__con { color: var(--tinta); transform: translateX(6px); }
+.vs__fila.on .vs__con { color: var(--tinta); }
 .vs__fila.on .vs__nodo { background: var(--impulso); transform: scale(1.15); box-shadow: 0 0 0 5px rgba(27, 117, 253, .18), 0 0 18px rgba(27, 117, 253, .7); }
 .vs__fila.on .vs__tema { color: var(--tinta); }
 .vs__fila.on .vs__sin { opacity: .55; transform: translateX(-10px); filter: blur(.4px); text-decoration-color: rgba(154, 162, 177, .8); }
@@ -346,7 +346,6 @@ section[id] { scroll-margin-top: 90px; }
   .vs__sin { justify-content: flex-start; text-align: left; padding: 0; font-size: 15px; }
   .vs__con { padding: 14px 16px 14px 40px; border-radius: 16px; background: var(--hielo); font-size: 1.1rem; }
   .vs__nodo { left: 14px; }
-  .vs__fila.on .vs__con { transform: none; }
   .vs__fila.on .vs__sin { transform: none; }
   .como__in { grid-template-columns: 1fr; }
   .carta--demo, .carta--pasos { padding: 18px; border-radius: 28px; }
