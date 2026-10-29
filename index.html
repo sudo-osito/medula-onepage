@@ -30,24 +30,22 @@
   <div class="envoltura nav__in">
     <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="22" height="25"><b>Médula</b></a>
     <nav class="nav__links" aria-label="Secciones">
+      <a href="#hoy">Qué es</a>
+      <a href="#comparativa">Con Médula</a>
       <a href="#como">Cómo funciona</a>
-      <a href="#integraciones">Integraciones</a>
       <a href="#seguridad">Seguridad</a>
-      <a href="#precios">Precios</a>
-      <a href="#preguntas">Preguntas</a>
+      <a href="#metodo">Cómo trabajamos</a>
     </nav>
-    <a class="nav__entrar" href="https://medula.condorai.cl/app/entrar">Entrar</a>
-    <a class="btn btn--chico" href="https://medula.condorai.cl/app/registro">Prueba 7 días gratis</a>
+    <a class="btn btn--chico" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery</a>
     <button class="nav__menu" id="nav-menu" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir el menú"><i></i><i></i></button>
   </div>
   <nav class="menu" id="menu-movil" aria-label="Menú">
+    <a href="#hoy">Qué es</a>
+    <a href="#comparativa">Con Médula</a>
     <a href="#como">Cómo funciona</a>
-    <a href="#integraciones">Integraciones</a>
     <a href="#seguridad">Seguridad</a>
-    <a href="#precios">Precios</a>
-    <a href="#preguntas">Preguntas</a>
-    <a href="https://medula.condorai.cl/app/entrar">Entrar</a>
-    <a class="btn" href="https://medula.condorai.cl/app/registro">Prueba 7 días gratis <svg><use href="#i-flecha"/></svg></a>
+    <a href="#metodo">Cómo trabajamos</a>
+    <a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
   </nav>
   <div class="progreso" aria-hidden="true"><i id="progreso"></i></div>
 </header>
@@ -67,10 +65,15 @@
       <div class="heroe__pie">
         <p class="bajada" data-r style="--d:.3s">Conectamos tus aplicaciones, sistemas e información en un ecosistema inteligente donde personas y agentes de inteligencia artificial trabajan de manera coordinada, automatizan procesos, ejecutan acciones y toman mejores decisiones.</p>
         <div class="heroe__acc" data-r style="--d:.45s">
-          <a class="btn" href="https://medula.condorai.cl/app/registro">Prueba 7 días gratis <svg><use href="#i-flecha"/></svg></a>
-          <a class="btn btn--claro" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20una%20demo%20de%20M%C3%A9dula." target="_blank" rel="noopener">Agenda una demo</a>
+          <a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
+          <a class="btn btn--claro" href="#como">Mira cómo funciona</a>
         </div>
       </div>
+    </div>
+    <!-- La franja de sistemas: corre de derecha a izquierda y desaparece detrás de la primera línea de la retícula -->
+    <div class="franja" aria-label="Algunos sistemas que conecta Médula">
+      <div class="franja__c franja__rot"><b>+170 sistemas</b><span>se conectan a Médula</span></div>
+      <div class="franja__cinta"><div class="franja__fila" id="franja"></div></div>
     </div>
   </section>
 
@@ -115,7 +118,29 @@
     </div>
   </section>
 
-  <!-- 04 · Cómo funciona: cuatro pasos a la izquierda que avanzan junto con la conversación de la derecha -->
+  <!-- 04 · Sin Médula / Con Médula: la misma empresa, dos formas de trabajar -->
+  <section class="cmp" id="comparativa" aria-labelledby="h-cmp">
+    <div class="envoltura">
+      <div class="cab2">
+        <div>
+          <p class="eti" data-r>Con Médula</p>
+          <h2 class="t arma" id="h-cmp">La misma empresa. <span class="gris">Otra forma de trabajar.</span></h2>
+        </div>
+        <p class="bajada" data-r>Médula transforma datos dispersos en información confiable y acciones coordinadas que optimizan recursos, potencian equipos y agilizan decisiones.</p>
+      </div>
+      <div class="tabla" id="tabla" role="table" aria-label="Sin Médula y con Médula">
+        <div class="tabla__cab" role="row"><span role="columnheader"></span><span role="columnheader">Sin Médula</span><span role="columnheader" class="tabla__con"><img src="recursos/medula-marca.svg" alt="">Con Médula</span></div>
+        <div class="fila" role="row"><b role="rowheader">La información</b><span role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</span><span role="cell" class="tabla__con">Conectada en un solo ecosistema inteligente.</span></div>
+        <div class="fila" role="row"><b role="rowheader">La IA de tu equipo</b><span role="cell">Responde sin conocer tu empresa.</span><span role="cell" class="tabla__con">ChatGPT y Claude trabajan con el contexto de tu empresa.</span></div>
+        <div class="fila" role="row"><b role="rowheader">Las tareas repetitivas</b><span role="cell">Se buscan, copian y pegan a mano.</span><span role="cell" class="tabla__con">Agentes de IA automatizan procesos y ejecutan acciones.</span></div>
+        <div class="fila" role="row"><b role="rowheader">El trabajo en equipo</b><span role="cell">Personas y sistemas trabajan aislados.</span><span role="cell" class="tabla__con">Personas y agentes coordinados, con un mismo contexto.</span></div>
+        <div class="fila" role="row"><b role="rowheader">Cada respuesta</b><span role="cell">Nadie sabe de dónde salió el dato.</span><span role="cell" class="tabla__con">Cita sus fuentes: Bsale, Gmail, tu CRM.</span></div>
+        <div class="fila" role="row"><b role="rowheader">Las decisiones</b><span role="cell">Llegan tarde, después de buscar la información.</span><span role="cell" class="tabla__con">Más ágiles y oportunas, con información confiable.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · Cómo funciona: cuatro pasos a la izquierda que avanzan junto con la conversación de la derecha -->
   <section class="como" id="como" aria-labelledby="h-como">
     <div class="envoltura">
       <div class="cab2">
@@ -123,7 +148,7 @@
           <p class="eti" data-r>Cómo funciona</p>
           <h2 class="t arma" id="h-como">Personas y agentes de IA, <span class="gris">con un mismo contexto.</span></h2>
         </div>
-        <p class="bajada" data-r>Médula transforma datos dispersos en información confiable y acciones coordinadas que optimizan recursos, potencian equipos y agilizan decisiones.</p>
+        <p class="bajada" data-r>Preguntas como siempre. Médula busca en cada sistema, cita sus fuentes y, cuando lo apruebas, ejecuta.</p>
       </div>
       <div class="como__in" id="como-in">
         <ol class="pasos">
@@ -149,27 +174,6 @@
     </div>
   </section>
 
-  <!-- 05 · Integraciones: dos cintas en sentidos opuestos y las familias alineadas a la retícula -->
-  <section class="integ" id="integraciones" aria-labelledby="h-integ">
-    <div class="envoltura cab2">
-      <div>
-        <p class="eti" data-r>Integraciones</p>
-        <h2 class="t arma" id="h-integ">Todo lo que ya usas, <span class="gris">en una sola memoria.</span></h2>
-      </div>
-      <p class="bajada" data-r>Conectas tus apps una vez y la información nueva entra sola, sin copiar ni pegar. <b>Más de 170 sistemas</b>, y también los hechos a medida.</p>
-    </div>
-    <div class="cinta" aria-label="Algunas integraciones">
-      <div class="cinta__fila" id="fila-a"></div>
-      <div class="cinta__fila cinta__fila--b" id="fila-b"></div>
-    </div>
-    <div class="envoltura familias">
-      <div data-r><b>CRM y ERP</b><span>Zoho, Defontana, Softland, Bsale</span></div>
-      <div data-r style="--d:.06s"><b>Ventas y pagos</b><span>Shopify, Mercado Libre, tiendas y pasarelas</span></div>
-      <div data-r style="--d:.12s"><b>Productividad</b><span>Google, Microsoft, Notion, Slack</span></div>
-      <div data-r style="--d:.18s"><b>A medida</b><span>Bases de datos, desarrollo y sistemas propios</span></div>
-    </div>
-  </section>
-
   <!-- 06 · Seguridad: cuatro columnas sobre la retícula -->
   <section class="seg" id="seguridad" aria-labelledby="h-seg">
     <div class="envoltura">
@@ -189,79 +193,13 @@
     </div>
   </section>
 
-  <!-- 07 · Precios: los planes de empresa, desde compartido/planes.ts (master) -->
-  <section class="precios" id="precios" aria-labelledby="h-precios">
-    <div class="envoltura">
-      <div class="cab2">
-        <div>
-          <p class="eti" data-r>Precios</p>
-          <h2 class="t arma" id="h-precios">Empieza con tu equipo. <span class="gris">Crece con tu empresa.</span></h2>
-        </div>
-        <div class="precios__der" data-r>
-          <p class="bajada">7 días gratis de Team, sin tarjeta. Precios por usuario, en pesos chilenos, más IVA.</p>
-          <div class="periodo" role="group" aria-label="Periodo de pago">
-            <button data-periodo="mensual" aria-pressed="false">Mensual</button>
-            <button data-periodo="anual" aria-pressed="true">Anual <em>2 meses gratis</em></button>
-          </div>
-        </div>
-      </div>
-      <div class="planes">
-        <article class="plan" data-r>
-          <h3>Team</h3>
-          <p class="plan__para">Para pymes, agencias y estudios de 3 a 10 personas.</p>
-          <div class="plan__precio" data-mensual="9990" data-anual="99900"><b>$8.325</b><span>por usuario al mes</span></div>
-          <p class="plan__nota">$99.900 por usuario al año</p>
-          <a class="btn btn--claro" href="https://medula.condorai.cl/app/registro">Prueba Team 7 días gratis</a>
-          <ul>
-            <li>De 3 a 10 usuarios</li>
-            <li>Hasta 5 apps conectadas, al día cada hora</li>
-            <li>Cerebro de empresa: tus áreas, su gente y 3 agentes de área</li>
-            <li>Carpetas compartidas y roles de admin y miembro</li>
-            <li>10 h de reuniones al mes: se graban, se resumen y dejan sus tareas</li>
-          </ul>
-        </article>
-        <article class="plan plan--destacado" data-r style="--d:.06s">
-          <span class="plan__sello">Recomendado</span>
-          <h3>Business</h3>
-          <p class="plan__para">Para empresas con áreas, CRM y mucha documentación.</p>
-          <div class="plan__precio" data-mensual="15990" data-anual="159900"><b>$13.325</b><span>por usuario al mes</span></div>
-          <p class="plan__nota">$159.900 por usuario al año</p>
-          <a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20una%20demo%20de%20M%C3%A9dula%20Business." target="_blank" rel="noopener">Agenda una demo <svg><use href="#i-flecha"/></svg></a>
-          <ul>
-            <li>Desde 5 usuarios</li>
-            <li>Todas las apps conectadas, al día cada 15 minutos</li>
-            <li>Un agente por área y Dirección, que consulta a todas</li>
-            <li>Permisos por carpeta y registro de auditoría</li>
-            <li>API y automatizaciones de empresa</li>
-            <li>Soporte prioritario y una sesión de puesta en marcha</li>
-          </ul>
-        </article>
-        <article class="plan" data-r style="--d:.12s">
-          <h3>Enterprise</h3>
-          <p class="plan__para">Para empresas reguladas, grandes o con sistemas propios.</p>
-          <div class="plan__precio plan__precio--cotizar"><b>A cotizar</b><span>según tu operación</span></div>
-          <p class="plan__nota">Contrato a medida</p>
-          <a class="btn btn--claro" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20cotizar%20M%C3%A9dula%20Enterprise." target="_blank" rel="noopener">Cotizar</a>
-          <ul>
-            <li>Usuarios ilimitados</li>
-            <li>Agentes de área entrenados y examinados por nuestro equipo</li>
-            <li>Conexión a tu ERP, SQL o CRM propio, casi en tiempo real</li>
-            <li>Servidor propio, SSO y permisos por carpeta</li>
-            <li>Ejecutivo de cuenta, SLA de 99,9 % y migración asistida</li>
-          </ul>
-        </article>
-      </div>
-      <p class="precios__pie">¿Lo quieres para ti? Médula también tiene planes personales: <a href="https://medula.condorai.cl/precios/">Individual y Pro</a>.</p>
-    </div>
-  </section>
-
-  <!-- 08 · Preguntas -->
+  <!-- 07 · Preguntas -->
   <section class="fq" id="preguntas" aria-labelledby="h-fq">
     <div class="envoltura fq__in">
       <div class="fq__izq">
         <p class="eti" data-r>Preguntas</p>
         <h2 class="t arma" id="h-fq">Lo que todos nos preguntan.</h2>
-        <div class="fq__otra" data-r><b>¿Tienes otra duda?</b><p>Escríbenos y te mostramos Médula con tu operación.</p><a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20tengo%20una%20duda%20sobre%20M%C3%A9dula." target="_blank" rel="noopener">Escríbenos <svg><use href="#i-flecha"/></svg></a></div>
+        <div class="fq__otra" data-r><b>¿Tienes otra duda?</b><p>Cuéntanos qué necesitas mejorar.</p><a class="btn" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a></div>
       </div>
       <div class="fq__lista">
         <details><summary><span>01</span>¿Qué es Médula?<i></i></summary><p>Es el sistema nervioso de tu empresa. Conecta tus aplicaciones, sistemas e información en un ecosistema inteligente donde personas y agentes de IA trabajan de manera coordinada.</p></details>
@@ -269,23 +207,30 @@
         <details><summary><span>03</span>¿Qué hacen los agentes de IA?<i></i></summary><p>Trabajan con el mismo contexto que tu equipo: buscan en tus sistemas, coordinan tareas, automatizan procesos y ejecutan acciones. Antes de escribir en tus sistemas, te piden confirmación.</p></details>
         <details><summary><span>04</span>¿Qué ve la IA?<i></i></summary><p>Solo lo necesario para responder, respetando los permisos de cada persona. Y pide permiso antes de escribir en tus sistemas.</p></details>
         <details><summary><span>05</span>¿Funciona con ChatGPT o Claude?<i></i></summary><p>Sí. Tu equipo sigue usando la IA que ya tiene, y Médula le entrega el contexto de tu empresa. También puedes usarla desde la app de escritorio o la web.</p></details>
-        <details><summary><span>06</span>¿Qué pasa al terminar la prueba?<i></i></summary><p>Eliges el plan que te acomode. No hay un plan gratis permanente.</p></details>
+        <details><summary><span>06</span>¿Tengo que llegar con la solución definida?<i></i></summary><p>No. Puedes llegar solo con el problema: un proceso que demora demasiado, información que cuesta encontrar o un equipo que trabaja desconectado. Partimos entendiendo tu operación y juntos definimos qué conviene hacer.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- 09 · Cierre: vuelve el aura, ahora desde abajo -->
-  <section class="fin" id="empieza" aria-labelledby="h-fin">
-    <canvas class="fin__aura" data-aura="fin" aria-hidden="true"></canvas>
-    <div class="envoltura fin__in">
-      <p class="eti" data-r>Empieza hoy</p>
-      <h2 class="fin__t arma" id="h-fin">Toda tu empresa, conectada.</h2>
-      <p class="bajada" data-r>Un ecosistema inteligente que integra tus sistemas y utiliza agentes de inteligencia artificial para coordinar tareas, automatizar procesos y transformar información en acciones concretas.</p>
-      <div class="heroe__acc" data-r>
-        <a class="btn btn--grande" href="https://medula.condorai.cl/app/registro">Prueba 7 días gratis <svg><use href="#i-flecha"/></svg></a>
-        <a class="btn btn--grande btn--claro" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20una%20demo%20de%20M%C3%A9dula." target="_blank" rel="noopener">Agenda una demo</a>
+  <!-- 08 · Cómo trabajamos (BOFU): las cuatro etapas y el CTA; vuelve el aura desde abajo -->
+  <section class="metodo" id="metodo" aria-labelledby="h-metodo">
+    <canvas class="metodo__aura" data-aura="fin" aria-hidden="true"></canvas>
+    <div class="envoltura metodo__in">
+      <div class="metodo__cab">
+        <p class="eti" data-r>Cómo trabajamos</p>
+        <h2 class="t arma" id="h-metodo">Primero entendemos. Después diseñamos. <span class="gris">Finalmente, medimos.</span></h2>
       </div>
-      <p class="fin__nota" data-r>Sin tarjeta</p>
+      <ol class="etapas" id="etapas">
+        <li class="etapa activo"><span class="etapa__n">01 · Discovery</span><h3>Descubrimos oportunidades</h3><p>Escuchamos a las personas, conocemos sus procesos y analizamos cómo funciona la operación.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">02 · Priorizar</span><h3>Evaluamos y priorizamos</h3><p>Consideramos beneficios, costos, complejidad y recursos. Incluimos mejoras rápidas cuando son viables.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">03 · Conectar</span><h3>Diseñamos e implementamos</h3><p>Por etapas que permiten validar avances, incorporar aprendizajes e integrar lo que ya usas.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">04 · Medir</span><h3>Medimos y evolucionamos</h3><p>Comparamos la condición anterior con los resultados y acompañamos la evolución.</p><i class="etapa__barra"></i></li>
+      </ol>
+      <div class="cierre">
+        <h2 class="cierre__t arma" id="h-fin">Toda tu empresa, conectada.</h2>
+        <p class="bajada" data-r>No necesitas llegar con la solución definida. Cuéntanos qué necesitas mejorar y lo exploramos juntos.</p>
+        <a class="btn btn--grande" href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery data-r>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
+      </div>
     </div>
   </section>
 </main>
@@ -298,8 +243,8 @@
         <p>El sistema nervioso de tu empresa.</p>
       </div>
       <nav class="pie__cols" aria-label="Mapa del sitio">
-        <div><h4>Producto</h4><a href="#como">Cómo funciona</a><a href="#integraciones">Integraciones</a><a href="#seguridad">Seguridad</a><a href="#precios">Precios</a></div>
-        <div><h4>Cuenta</h4><a href="https://medula.condorai.cl/app/registro">Prueba gratis</a><a href="https://medula.condorai.cl/app/entrar">Entrar</a><a href="https://medula.condorai.cl/descargas/">Descargas</a><a href="https://medula.condorai.cl/ayuda/">Ayuda</a></div>
+        <div><h4>Médula</h4><a href="#hoy">Qué es</a><a href="#comparativa">Con Médula</a><a href="#como">Cómo funciona</a><a href="#seguridad">Seguridad</a></div>
+        <div><h4>Empieza</h4><a href="#metodo">Cómo trabajamos</a><a href="https://wa.me/56988989824?text=Hola%2C%20quiero%20agendar%20un%20Discovery%20de%20M%C3%A9dula." target="_blank" rel="noopener" data-discovery>Agenda tu Discovery</a></div>
         <div><h4>Contacto</h4><a href="mailto:medula@teamcondorcl.com">medula@teamcondorcl.com</a><a href="https://wa.me/56988989824" target="_blank" rel="noopener">WhatsApp +56 9 8898 9824</a></div>
       </nav>
     </div>

@@ -101,7 +101,7 @@ function aura(cv, op) {
 }
 // el héroe: la masa a la derecha (arriba en el celular); el cierre: la masa sube desde abajo
 const AURAS = {
-  heroe: { centro: () => (MOVIL() ? [.5, .86] : [.76, .56]), radio: () => (MOVIL() ? .58 : .78), intensidad: 1.15 },
+  heroe: { centro: () => (MOVIL() ? [.5, .92] : [.76, .56]), radio: () => (MOVIL() ? .58 : .78), intensidad: 1.15 },
   fin: { centro: () => [.5, -.12], radio: () => (MOVIL() ? .62 : .72), intensidad: 1.15 },
 };
 $$("canvas[data-aura]").forEach((cv) => aura(cv, AURAS[cv.dataset.aura]));
@@ -240,30 +240,34 @@ let pintarFrase = () => {};
   }
 }
 
-/* ── Integraciones: dos cintas que corren en sentidos opuestos ── */
+/* ── La franja del héroe: los sistemas corren hacia la izquierda y desaparecen detrás de la línea ── */
 {
-  const A = [["zoho.svg", "Zoho", "ERP y CRM"], ["defontana.svg", "Defontana", "ERP"], ["bsale.png", "Bsale", "Boletas y ventas"], ["softland.png", "Softland", "ERP"], ["shopify.svg", "Shopify", "Ecommerce"], ["mercadolibre.svg", "Mercado Libre", "Marketplace"], ["googlecalendar.svg", "Calendario", "Agenda"], ["whatsapp.svg", "WhatsApp", "Mensajería"]];
-  const B = [["gmail.svg", "Gmail", "Correo"], ["microsoftexcel.svg", "Excel", "Planillas"], ["googlesheets.svg", "Sheets", "Planillas"], ["microsoftoutlook.svg", "Outlook", "Correo"], ["microsoftteams.svg", "Teams", "Reuniones"], ["notion.svg", "Notion", "Documentos"], ["slack.svg", "Slack", "Equipo"], ["claude.svg", "Claude", "IA"], ["openai.svg", "ChatGPT", "IA"]];
-  const placa = ([img, n, t]) => `<div class="placa"><img src="recursos/logos/${img}" alt=""><div><b>${n}</b><small>${t}</small></div></div>`;
-  $("#fila-a").innerHTML = [...A, ...A].map(placa).join(""); $("#fila-b").innerHTML = [...B, ...B].map(placa).join("");
+  const S = [["zoho.svg", "Zoho"], ["defontana.svg", "Defontana"], ["bsale.png", "Bsale"], ["softland.png", "Softland"], ["gmail.svg", "Gmail"], ["whatsapp.svg", "WhatsApp"], ["microsoftexcel.svg", "Excel"], ["googlesheets.svg", "Sheets"], ["shopify.svg", "Shopify"], ["mercadolibre.svg", "Mercado Libre"], ["microsoftoutlook.svg", "Outlook"], ["microsoftteams.svg", "Teams"], ["notion.svg", "Notion"], ["slack.svg", "Slack"], ["googlecalendar.svg", "Calendario"], ["claude.svg", "Claude"], ["openai.svg", "ChatGPT"]];
+  const sis = ([img, n]) => `<span class="sis"><img src="recursos/logos/${img}" alt="">${n}</span>`;
+  $("#franja").innerHTML = [...S, ...S].map(sis).join("");
 }
 
-/* ── Precios: mensual o anual (el anual paga 10 meses) ── */
+/* ── Sin Médula / Con Médula: las filas entran una a una ── */
 {
-  const pesos = (n) => "$" + Math.round(n).toLocaleString("es-CL");
-  const elegir = (periodo) => {
-    $$(".periodo button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.periodo === periodo));
-    $$(".plan__precio[data-mensual]").forEach((p) => {
-      const b = $("b", p), nota = p.nextElementSibling, men = +p.dataset.mensual, anu = +p.dataset.anual;
-      b.style.opacity = 0;
-      setTimeout(() => {
-        b.textContent = pesos(periodo === "anual" ? anu / 12 : men);
-        nota.textContent = periodo === "anual" ? `${pesos(anu)} por usuario al año` : "Pagando mes a mes";
-        b.style.opacity = 1;
-      }, 180);
-    });
-  };
-  $$(".periodo button").forEach((b) => b.addEventListener("click", () => elegir(b.dataset.periodo)));
+  const ob = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visto"); ob.unobserve(e.target); } }), { threshold: .4, rootMargin: "0px 0px -6% 0px" });
+  $$(".fila").forEach((f) => ob.observe(f));
+}
+
+/* ── Cómo trabajamos: la etapa activa avanza sola; un clic elige ── */
+{
+  const sec = $("#etapas"), etapas = $$(".etapa", sec), DUR = 5000;
+  let actual = 0, t0 = performance.now(), pausa = false, previo = performance.now();
+  const ir = (i) => { actual = i; t0 = performance.now(); etapas.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); };
+  etapas.forEach((p, i) => p.addEventListener("click", () => ir(i)));
+  sec.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && (pausa = true));
+  sec.addEventListener("pointerleave", () => (pausa = false));
+  if (QUIETO) etapas.forEach((p) => p.classList.add("activo"));
+  else bucleVisible(sec, () => {
+    const ahora = performance.now(), dt = ahora - previo; previo = ahora;
+    if (pausa) { t0 += Math.min(dt, 100); return; }
+    const k = clamp((ahora - t0) / DUR); etapas[actual].style.setProperty("--prog", k);
+    if (k >= 1) ir((actual + 1) % etapas.length);
+  }, 30);
 }
 
 /* ── Menú del celular y progreso de lectura ── */
