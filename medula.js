@@ -296,12 +296,13 @@ function pintarVs() {
   alVer($("#log"), () => { if (log._i) return; log._i = setInterval(() => { if (n === log.length) { log.forEach((l) => l.classList.remove("on")); n = -1; } else log[n].classList.add("on"); n++; }, 800); }, () => { clearInterval(log._i); log._i = 0; }, .3);
 }
 
-/* ── La frase gigante corre según el scroll ── */
-const gig = $("#gigante"), gigIn = $("#gigante-in");
+/* ── La frase gigante: las dos líneas se encuentran al centro según el scroll ── */
+const gig = $("#gigante"), gigA = $("#gig-a"), gigB = $("#gig-b");
 function pintarGigante() {
   const r = gig.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-  const k = clamp((innerHeight - r.top) / (innerHeight + r.height));
-  gigIn.style.transform = `translateX(${-k * gigIn.scrollWidth * .5 + innerWidth * .15}px)`;
+  const e = QUIETO ? 1 : eo(clamp((innerHeight - r.top) / (innerHeight * .75)));
+  gigA.style.transform = `translateX(${(1 - e) * -45}vw)`; gigB.style.transform = `translateX(${(1 - e) * 45}vw)`;
+  gigA.style.opacity = gigB.style.opacity = .15 + .85 * e;
 }
 
 /* ── Cómo trabajamos: la etapa activa avanza sola; un clic elige ── */

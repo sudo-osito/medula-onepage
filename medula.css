@@ -285,10 +285,10 @@ section[id] { scroll-margin-top: 90px; }
 .fq__lista details[open] p { animation: abre .6s var(--llegada); }
 @keyframes abre { from { opacity: 0; transform: translateY(-6px); } }
 
-/* ── La frase gigante que corre con el scroll ── */
-.gigante { overflow: hidden; padding: 60px 0 20px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent); }
-.gigante__in { display: flex; width: max-content; will-change: transform; }
-.gigante__in span { font-size: clamp(5rem, 2rem + 10vw, 13rem); font-weight: 650; letter-spacing: -.07em; line-height: 1; padding-right: .3em; white-space: nowrap; }
+/* ── La frase gigante: siempre cabe en la pantalla; cada línea entra desde un lado ── */
+.gigante { padding: 120px 0 40px; display: grid; justify-items: center; text-align: center; overflow: hidden; }
+.gigante__l { font-size: min(9.2vw, 9.5rem); font-weight: 650; letter-spacing: -.065em; line-height: .98; white-space: nowrap; will-change: transform, opacity; }
+.gigante__l--b { padding-bottom: .08em; background: linear-gradient(100deg, var(--medula), var(--impulso) 50%, var(--nucleo)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 /* ── Cómo trabajamos + cierre ── */
 .metodo { padding: 100px 0 40px; }
@@ -364,6 +364,8 @@ section[id] { scroll-margin-top: 90px; }
 }
 @media (max-width: 560px) {
   .bajada { font-size: 16.5px; }
+  .gigante { padding-top: 90px; }
+  .gigante__l { font-size: 11vw; }
   .heroe .isla { margin-top: 20px; }
   .acciones { width: 100%; flex-direction: column; }
   .franja { padding-bottom: 64px; }
