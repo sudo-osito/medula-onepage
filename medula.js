@@ -236,10 +236,22 @@ let pintarEscena = () => {};
   };
 }
 
-/* ── Sin Médula / Con Médula: las filas entran una a una ── */
+/* ── Sin Médula / Con Médula: el nervio baja con el scroll y enciende cada fila al pasar ── */
+const vs = $("#vs"), nervio = $("#nervio"), filasVs = $$(".vs__fila");
+function pintarVs() {
+  const r = vs.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+  const k = QUIETO ? 1 : clamp((innerHeight * .62 - r.top) / r.height);
+  nervio.style.setProperty("--p", k);
+  filasVs.forEach((f) => { const rf = f.querySelector(".vs__con").getBoundingClientRect(); f.classList.toggle("on", rf.top + rf.height / 2 < innerHeight * .62 || QUIETO); });
+}
+
+/* ── Héroe: el símbolo se inclina hacia el puntero ── */
 {
-  const ob = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visto"); ob.unobserve(e.target); } }), { threshold: .4, rootMargin: "0px 0px -6% 0px" });
-  $$(".fila").forEach((f) => ob.observe(f));
+  const sim = $("#sim img");
+  if (!QUIETO && matchMedia("(pointer: fine)").matches) $("#heroe").addEventListener("pointermove", (e) => {
+    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .3;
+    sim.style.setProperty("--rx", `${x * 22}deg`); sim.style.setProperty("--ry", `${-y * 18}deg`);
+  });
 }
 
 /* ── Cómo funciona: la conversación avanza sola y despliega su paso; un clic salta a ese paso ── */
@@ -353,6 +365,6 @@ function pintarNav() {
 
 /* ── Un solo bucle de scroll ── */
 let pendiente = false;
-function alScroll() { if (pendiente) return; pendiente = true; requestAnimationFrame(() => { pendiente = false; pintarNav(); pintarHeroe(); pintarEscena(); pintarGigante(); }); }
+function alScroll() { if (pendiente) return; pendiente = true; requestAnimationFrame(() => { pendiente = false; pintarNav(); pintarHeroe(); pintarEscena(); pintarVs(); pintarGigante(); }); }
 addEventListener("scroll", alScroll, { passive: true }); addEventListener("resize", alScroll);
 alScroll();

@@ -33,6 +33,7 @@
       <a href="#como">Cómo funciona</a>
       <a href="#seguridad">Seguridad</a>
       <a href="#metodo">Cómo trabajamos</a>
+      <a href="#preguntas">Preguntas</a>
     </nav>
     <a class="btn btn--chico" href="#" data-discovery>Agenda tu Discovery</a>
     <button class="nav__menu" id="nav-menu" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir el menú"><i></i><i></i></button>
@@ -43,6 +44,7 @@
     <a href="#como">Cómo funciona</a>
     <a href="#seguridad">Seguridad</a>
     <a href="#metodo">Cómo trabajamos</a>
+    <a href="#preguntas">Preguntas</a>
     <a class="btn" href="#" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a>
   </nav>
 </header>
@@ -53,7 +55,11 @@
   <section class="heroe" id="heroe" aria-labelledby="h-heroe">
     <canvas class="heroe__aura" data-aura="heroe" aria-hidden="true"></canvas>
     <div class="heroe__in envoltura" id="heroe-in">
-      <img class="heroe__sim" src="recursos/medula-marca-blanca.svg" alt="" aria-hidden="true">
+      <div class="heroe__sim" id="sim" aria-hidden="true">
+        <i class="onda"></i><i class="onda"></i><i class="onda"></i>
+        <span class="heroe__halo"></span>
+        <img src="recursos/medula-marca-blanca.svg" alt="">
+      </div>
       <div class="isla" id="isla" aria-live="polite">
         <span class="isla__sim"><img src="recursos/medula-marca-blanca.svg" alt=""><i></i></span>
         <span class="isla__txt" id="isla-txt">Médula</span>
@@ -116,14 +122,15 @@
         <h2 class="t arma" id="h-cmp">La misma empresa. <span class="gris">Otra forma de trabajar.</span></h2>
         <p class="bajada" data-r>Médula transforma datos dispersos en información confiable y acciones coordinadas que optimizan recursos, potencian equipos y agilizan decisiones.</p>
       </div>
-      <div class="tabla" role="table" aria-label="Sin Médula y con Médula">
-        <div class="tabla__cab" role="row"><span role="columnheader"></span><span role="columnheader">Sin Médula</span><span role="columnheader" class="tabla__con"><img src="recursos/medula-marca.svg" alt="">Con Médula</span></div>
-        <div class="fila" role="row"><b role="rowheader">La información</b><span role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</span><span role="cell" class="tabla__con">Conectada en un solo ecosistema inteligente.</span></div>
-        <div class="fila" role="row"><b role="rowheader">La IA de tu equipo</b><span role="cell">Responde sin conocer tu empresa.</span><span role="cell" class="tabla__con">ChatGPT y Claude trabajan con el contexto de tu empresa.</span></div>
-        <div class="fila" role="row"><b role="rowheader">Las tareas repetitivas</b><span role="cell">Se buscan, copian y pegan a mano.</span><span role="cell" class="tabla__con">Agentes de IA automatizan procesos y ejecutan acciones.</span></div>
-        <div class="fila" role="row"><b role="rowheader">El trabajo en equipo</b><span role="cell">Personas y sistemas trabajan aislados.</span><span role="cell" class="tabla__con">Personas y agentes coordinados, con un mismo contexto.</span></div>
-        <div class="fila" role="row"><b role="rowheader">Cada respuesta</b><span role="cell">Nadie sabe de dónde salió el dato.</span><span role="cell" class="tabla__con">Cita sus fuentes: Bsale, Gmail, tu CRM.</span></div>
-        <div class="fila" role="row"><b role="rowheader">Las decisiones</b><span role="cell">Llegan tarde, después de buscar la información.</span><span role="cell" class="tabla__con">Más ágiles y oportunas, con información confiable.</span></div>
+      <div class="vs" id="vs" role="table" aria-label="Sin Médula y con Médula">
+        <div class="vs__panel" aria-hidden="true"><i class="vs__nervio" id="nervio"></i></div>
+        <div class="vs__cab" role="row"><span role="columnheader" class="vs__sin-cab">Sin Médula</span><span role="columnheader"></span><span role="columnheader" class="vs__con-cab"><img src="recursos/medula-marca.svg" alt="">Con Médula</span></div>
+        <div class="vs__fila" role="row" style="--i:0"><span class="vs__sin" role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</span><b class="vs__tema" role="rowheader">La información</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Conectada en un solo ecosistema inteligente.</span></div>
+        <div class="vs__fila" role="row" style="--i:1"><span class="vs__sin" role="cell">Responde sin conocer tu empresa.</span><b class="vs__tema" role="rowheader">La IA de tu equipo</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>ChatGPT y Claude trabajan con el contexto de tu empresa.</span></div>
+        <div class="vs__fila" role="row" style="--i:2"><span class="vs__sin" role="cell">Se buscan, copian y pegan a mano.</span><b class="vs__tema" role="rowheader">Las tareas repetitivas</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Agentes de IA automatizan procesos y ejecutan acciones.</span></div>
+        <div class="vs__fila" role="row" style="--i:3"><span class="vs__sin" role="cell">Personas y sistemas trabajan aislados.</span><b class="vs__tema" role="rowheader">El trabajo en equipo</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Personas y agentes coordinados, con un mismo contexto.</span></div>
+        <div class="vs__fila" role="row" style="--i:4"><span class="vs__sin" role="cell">Nadie sabe de dónde salió el dato.</span><b class="vs__tema" role="rowheader">Cada respuesta</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Cita sus fuentes: Bsale, Gmail, tu CRM.</span></div>
+        <div class="vs__fila" role="row" style="--i:5"><span class="vs__sin" role="cell">Llegan tarde, después de buscar la información.</span><b class="vs__tema" role="rowheader">Las decisiones</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Más ágiles y oportunas, con información confiable.</span></div>
       </div>
     </div>
   </section>
@@ -192,11 +199,30 @@
     </div>
   </section>
 
-  <!-- 06 · Preguntas -->
+  <!-- La frase gigante corre con el scroll -->
+  <div class="gigante" id="gigante" aria-hidden="true"><div class="gigante__in" id="gigante-in"><span>Toda tu empresa, conectada.</span><span>Toda tu empresa, conectada.</span></div></div>
+
+  <!-- 06 · Cómo trabajamos: las cuatro etapas -->
+  <section class="metodo" id="metodo" aria-labelledby="h-metodo">
+    <div class="envoltura metodo__in">
+      <div class="cab">
+        <span class="tag" data-r><b>05</b>Cómo trabajamos</span>
+        <h2 class="t arma" id="h-metodo">Primero entendemos. Después diseñamos. <span class="gris">Finalmente, medimos.</span></h2>
+      </div>
+      <ol class="etapas" id="etapas">
+        <li class="etapa activo"><span class="etapa__n">01</span><span class="etapa__et">Discovery</span><h3>Descubrimos oportunidades</h3><p>Escuchamos a las personas, conocemos sus procesos y analizamos cómo funciona la operación.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">02</span><span class="etapa__et">Priorizar</span><h3>Evaluamos y priorizamos</h3><p>Consideramos beneficios, costos, complejidad y recursos. Incluimos mejoras rápidas cuando son viables.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">03</span><span class="etapa__et">Conectar</span><h3>Diseñamos e implementamos</h3><p>Por etapas que permiten validar avances, incorporar aprendizajes e integrar lo que ya usas.</p><i class="etapa__barra"></i></li>
+        <li class="etapa"><span class="etapa__n">04</span><span class="etapa__et">Medir</span><h3>Medimos y evolucionamos</h3><p>Comparamos la condición anterior con los resultados y acompañamos la evolución.</p><i class="etapa__barra"></i></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 07 · Preguntas -->
   <section class="fq" id="preguntas" aria-labelledby="h-fq">
     <div class="envoltura fq__in">
       <div class="fq__izq">
-        <span class="tag" data-r><b>05</b>Preguntas</span>
+        <span class="tag" data-r><b>06</b>Preguntas</span>
         <h2 class="t arma" id="h-fq">Lo que todos nos preguntan.</h2>
         <div class="fq__otra" data-r><b>¿Tienes otra duda?</b><p>Cuéntanos qué necesitas mejorar.</p><a class="btn" href="#" data-discovery>Agenda tu Discovery <svg><use href="#i-flecha"/></svg></a></div>
       </div>
@@ -211,23 +237,10 @@
     </div>
   </section>
 
-  <!-- La frase gigante corre con el scroll -->
-  <div class="gigante" id="gigante" aria-hidden="true"><div class="gigante__in" id="gigante-in"><span>Toda tu empresa, conectada.</span><span>Toda tu empresa, conectada.</span></div></div>
-
-  <!-- 07 · Cómo trabajamos (BOFU): las cuatro etapas y el CTA; el aura vuelve desde abajo -->
-  <section class="metodo" id="metodo" aria-labelledby="h-metodo">
+  <!-- 08 · Cierre (BOFU): el CTA sobre el aura que vuelve desde abajo -->
+  <section class="fin" id="empieza" aria-labelledby="h-fin">
     <canvas class="metodo__aura" data-aura="fin" aria-hidden="true"></canvas>
-    <div class="envoltura metodo__in">
-      <div class="cab">
-        <span class="tag" data-r><b>06</b>Cómo trabajamos</span>
-        <h2 class="t arma" id="h-metodo">Primero entendemos. Después diseñamos. <span class="gris">Finalmente, medimos.</span></h2>
-      </div>
-      <ol class="etapas" id="etapas">
-        <li class="etapa activo"><span class="etapa__n">01</span><span class="etapa__et">Discovery</span><h3>Descubrimos oportunidades</h3><p>Escuchamos a las personas, conocemos sus procesos y analizamos cómo funciona la operación.</p><i class="etapa__barra"></i></li>
-        <li class="etapa"><span class="etapa__n">02</span><span class="etapa__et">Priorizar</span><h3>Evaluamos y priorizamos</h3><p>Consideramos beneficios, costos, complejidad y recursos. Incluimos mejoras rápidas cuando son viables.</p><i class="etapa__barra"></i></li>
-        <li class="etapa"><span class="etapa__n">03</span><span class="etapa__et">Conectar</span><h3>Diseñamos e implementamos</h3><p>Por etapas que permiten validar avances, incorporar aprendizajes e integrar lo que ya usas.</p><i class="etapa__barra"></i></li>
-        <li class="etapa"><span class="etapa__n">04</span><span class="etapa__et">Medir</span><h3>Medimos y evolucionamos</h3><p>Comparamos la condición anterior con los resultados y acompañamos la evolución.</p><i class="etapa__barra"></i></li>
-      </ol>
+    <div class="envoltura fin__in">
       <div class="cierre">
         <h2 class="cierre__t arma" id="h-fin">¿Qué podríamos conectar en tu empresa?</h2>
         <p class="bajada" data-r>No necesitas llegar con la solución definida. Cuéntanos qué necesitas mejorar y lo exploramos juntos.</p>
