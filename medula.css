@@ -25,14 +25,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 ::selection { background: var(--bruma); color: var(--tinta); }
 .envoltura { width: min(var(--ancho), 100% - 40px); margin-inline: auto; }
 section[id] { scroll-margin-top: 90px; }
-.gris { color: var(--texto-3); }
+.gris { color: var(--marca); }
 .bajada { color: var(--texto-2); font-size: 18px; max-width: 56ch; }
 .bajada b { color: var(--tinta); font-weight: 600; }
 
-/* ── Retícula: cuatro columnas finas que recorren toda la página ── */
-.reticula { position: fixed; top: 0; bottom: 0; left: 50%; width: min(var(--ancho), 100% - 40px); transform: translateX(-50%); border-inline: 1px solid var(--linea); pointer-events: none; z-index: 0; }
-.reticula i { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--linea); }
-.reticula i:nth-child(1) { left: 25%; } .reticula i:nth-child(2) { left: 50%; } .reticula i:nth-child(3) { left: 75%; }
 
 /* ── Tipografía ── */
 .tag { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--texto-2); }
@@ -115,7 +111,7 @@ section[id] { scroll-margin-top: 90px; }
 .heroe__t { margin-top: 36px; font-size: clamp(2.8rem, 1rem + 4.4vw, 5.6rem); line-height: .95; letter-spacing: -.06em; font-weight: 600; }
 .heroe__t .arma { display: block; }
 .heroe__linea { display: block; min-height: 1em; }
-.heroe__linea .tipeo { color: var(--texto-3); }
+.heroe__linea .tipeo { color: var(--marca); }
 .heroe .bajada { margin-top: 26px; text-align: center; }
 .acciones { margin-top: 30px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
 
@@ -134,7 +130,6 @@ section[id] { scroll-margin-top: 90px; }
 
 /* ── La hoja blanca que sube sobre el héroe ── */
 .hoja { position: relative; z-index: 3; margin-top: -48px; border-radius: 44px 44px 0 0; background: #fff; box-shadow: 0 -1px 0 var(--linea), 0 -30px 60px -40px rgba(6, 16, 46, .25); }
-.hoja::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background-image: linear-gradient(var(--linea), var(--linea)), linear-gradient(var(--linea), var(--linea)), linear-gradient(var(--linea), var(--linea)), linear-gradient(var(--linea), var(--linea)), linear-gradient(var(--linea), var(--linea)); background-size: 1px 100%; background-repeat: no-repeat; background-position: calc(50% - min(var(--ancho), 100vw - 40px) / 2) 0, calc(50% - min(var(--ancho), 100vw - 40px) / 4) 0, 50% 0, calc(50% + min(var(--ancho), 100vw - 40px) / 4) 0, calc(50% + min(var(--ancho), 100vw - 40px) / 2) 0; }
 .hoja > * { position: relative; }
 
 /* ── La escena fija: Hoy → Eso es Médula ── */
@@ -402,7 +397,6 @@ section[id] { scroll-margin-top: 90px; }
 
 /* ── Celular y tableta ── */
 @media (max-width: 1020px) {
-  .reticula i:nth-child(1), .reticula i:nth-child(3) { display: none; }
   .nav { top: 10px; padding: 0 12px; }
   .nav__isla { width: 100%; justify-content: space-between; padding: 0 6px 0 18px; }
   .nav__links, .nav__isla > .btn { display: none; }
@@ -543,4 +537,19 @@ section[id] { scroll-margin-top: 90px; }
   .wf__pasos b { font-size: 15px; }
   .wf__pasos p { font-size: 12.5px; }
   .desde { padding-top: 4px; }
+}
+
+/* ── Aire tipo Apple: cada sección se lleva la pantalla completa; lo de antes y lo de después no se ven ── */
+@media (min-width: 561px) {
+  .cmp, .como, .seg, .metodo, .fq { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 150px 0; }
+  .gigante { min-height: 100svh; align-content: center; padding: 160px 0; }
+  .fin { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 200px 0 360px; }
+  .cab { margin-bottom: 80px; gap: 24px; }
+  .esc__cab { top: 15%; }
+}
+@media (max-width: 560px) {
+  .cmp, .como, .seg, .metodo, .fq { padding-top: 120px; padding-bottom: 40px; }
+  .gigante { padding: 110px 0 30px; }
+  .fin { padding: 130px 0 200px; }
+  .cab { margin-bottom: 44px; }
 }
