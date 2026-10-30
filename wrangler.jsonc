@@ -1,6 +1,7 @@
-// Cloudflare Workers · one-page estática (web-medula)
+// Cloudflare Workers · getmedula.ai (getmedulla.ai redirige aquí con una regla de Cloudflare)
 {
   "name": "web-medula",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./" }
+  "assets": { "directory": "./" },
+  "routes": [{ "pattern": "getmedula.ai", "custom_domain": true }]
 }
