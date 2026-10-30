@@ -236,14 +236,17 @@ let pintarEscena = () => {};
   };
 }
 
-/* ── Sin Médula / Con Médula: el nervio baja con el scroll y enciende cada fila al pasar ── */
-const vs = $("#vs"), nervio = $("#nervio"), filasVs = $$(".vs__fila");
+/* ── Sin Médula / Con Médula: la línea del centro baja con el scroll; al pasar por una fila, el impulso enciende
+   primero «Sin Médula» (rojo) y después «Con Médula» (azul). Al subir, se apagan ── */
+const vs = $("#vs"), vsLlena = $("#vs-llena"), vsChispa = $("#vs-chispa"), filasVs = $$(".vs__fila");
 function pintarVs() {
-  const r = vs.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
-  const k = QUIETO ? 1 : clamp((innerHeight * .62 - r.top) / r.height);
-  nervio.style.setProperty("--p", k);
-  filasVs.forEach((f) => { const rf = f.querySelector(".vs__con").getBoundingClientRect(); f.classList.toggle("on", rf.top + rf.height / 2 < innerHeight * .62 || QUIETO); });
+  const r = vs.getBoundingClientRect(); if (r.bottom < -200 || r.top > innerHeight + 200) return;
+  const eje = $(".vs__eje", vs).getBoundingClientRect(), linea = innerHeight * .6;
+  const k = QUIETO ? 1 : clamp((linea - eje.top) / eje.height);
+  vs.style.setProperty("--p", k); vs.style.setProperty("--vis", k > 0 && k < 1 ? 1 : 0);
+  filasVs.forEach((f) => { const c = $(".vs__con", f).getBoundingClientRect(); f.classList.toggle("on", QUIETO || c.top + c.height / 2 < linea); });
 }
+[vsLlena, vsChispa].forEach((el) => el.style.removeProperty("--p"));
 
 /* ── Héroe: el símbolo se inclina hacia el puntero ── */
 {
@@ -254,31 +257,94 @@ function pintarVs() {
   });
 }
 
-/* ── Cómo funciona: la conversación avanza sola y despliega su paso; un clic salta a ese paso ── */
+/* ── Cómo funciona: el flujo se ejecuta solo. Cada nodo gira mientras trabaja, termina con su check y su resultado;
+   los impulsos recorren las conexiones, el registro cuenta qué pasó y los cuatro pasos de abajo avanzan con él ── */
 {
-  const chat = $("#chat"), pasos = $$(".paso"), sec = $("#como-in");
-  const DUR = [2600, 3200, 2000, 3200];
-  let actual = 0, t0 = performance.now(), previo = performance.now(), pausa = false;
-  const fase = (f) => { chat.dataset.fase = f; $$(".msj", chat).forEach((m) => m.classList.toggle("on", !m.dataset.f || +m.dataset.f <= f)); };
-  const desc = $("#paso-desc");
-  const ir = (i) => { actual = i; t0 = performance.now(); fase(i + 1); pasos.forEach((p, j) => { p.classList.toggle("activo", j === i); p.style.setProperty("--prog", 0); }); desc.textContent = $("p", pasos[i]).textContent; };
-  pasos.forEach((p, i) => $("button", p).addEventListener("click", () => ir(i)));
-  sec.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && (pausa = true));
-  sec.addEventListener("pointerleave", () => (pausa = false));
-  if (QUIETO) { fase(4); pasos.forEach((p) => p.classList.add("activo")); }
-  else {
-    alVer(sec, () => { if (chat.dataset.fase === "0") ir(0); }, null, .3);
-    bucleVisible(sec, () => {
-      const ahora = performance.now(), dt = ahora - previo; previo = ahora;
-      if (chat.dataset.fase === "0") return;
-      if (pausa) { t0 += Math.min(dt, 100); return; }
-      const k = clamp((ahora - t0) / DUR[actual]); pasos[actual].style.setProperty("--prog", k);
-      if (k >= 1) {
-        if (actual < pasos.length - 1) ir(actual + 1);
-        else { fase(0); setTimeout(() => ir(0), 700); t0 = Infinity; }
+  const wf = $("#wf"), lienzo = $("#wf-lienzo"), grilla = $("#wf-grilla"), svg = $("#wf-aristas"), estado = $("#wf-estado"), log = $("#wf-log"), pasos = $$("#wf-pasos li"), escribe = $("#wf-escribe");
+  const N = Object.fromEntries($$(".nodo", wf).map((n) => [n.dataset.n, n]));
+  const UNIONES = [["pregunta", "medula"], ["medula", "bsale"], ["medula", "gmail"], ["medula", "zoho"], ["bsale", "agente"], ["gmail", "agente"], ["zoho", "agente"], ["agente", "aprobar"], ["aprobar", "correo"], ["aprobar", "tarea"], ["aprobar", "aviso"]];
+  const NS = "http://www.w3.org/2000/svg", aristas = {};
+  const vertical = () => lienzo.clientWidth < 720;
+  function dibujar() {
+    wf.classList.toggle("vertical", vertical());
+    const L = grilla.getBoundingClientRect(), v = vertical();
+    svg.setAttribute("viewBox", `0 0 ${L.width} ${L.height}`);
+    UNIONES.forEach(([a, b]) => {
+      const ra = $(".puerto--out", N[a]).getBoundingClientRect(), rb = $(".puerto--in", N[b]).getBoundingClientRect();
+      const x1 = ra.left + ra.width / 2 - L.left, y1 = ra.top + ra.height / 2 - L.top, x2 = rb.left + rb.width / 2 - L.left, y2 = rb.top + rb.height / 2 - L.top;
+      const d = v ? `M${x1} ${y1} C${x1} ${(y1 + y2) / 2} ${x2} ${(y1 + y2) / 2} ${x2} ${y2}` : `M${x1} ${y1} C${x1 + Math.max(30, (x2 - x1) / 2)} ${y1} ${x2 - Math.max(30, (x2 - x1) / 2)} ${y2} ${x2} ${y2}`;
+      let A = aristas[a + ">" + b];
+      if (!A) {
+        A = { base: document.createElementNS(NS, "path"), pulso: document.createElementNS(NS, "path") };
+        A.base.setAttribute("class", "base"); A.pulso.setAttribute("class", "pulso"); A.pulso.setAttribute("pathLength", "100");
+        svg.append(A.base, A.pulso); aristas[a + ">" + b] = A;
       }
-    }, 30);
+      A.base.setAttribute("d", d); A.pulso.setAttribute("d", d);
+    });
   }
+  const viajar = (a, b) => { const A = aristas[a + ">" + b]; A.pulso.classList.remove("viaja"); void A.pulso.getBBox(); A.pulso.classList.add("viaja"); setTimeout(() => A.base.classList.add("hecha"), 380); };
+  const fase = (i) => pasos.forEach((li, j) => { li.classList.toggle("on", j === i); li.classList.toggle("hecho", j < i); if (j !== i) li.style.setProperty("--prog", 0); });
+  let t0 = 0, turno = 0, vivo = false, faseAct = -1, faseT = 0;
+  const DUR_FASE = [3200, 2300, 1700, 1500];
+  const seg = () => ((performance.now() - t0) / 1000).toFixed(1).replace(".", ",");
+  const anotar = (txt) => { const li = document.createElement("li"); li.innerHTML = `<em>${seg()} s</em>${txt}`; log.prepend(li); while (log.children.length > 4) log.lastChild.remove(); };
+  const ponerEstado = (cls, txt) => { estado.className = "wf__estado " + cls; $("span", estado).textContent = txt; };
+  async function correr(n, ms, nota) { N[n].classList.add("corre"); await esperar(ms); N[n].classList.remove("corre"); N[n].classList.add("hecho"); if (nota) anotar(nota); }
+  function limpiar() {
+    $$(".nodo", wf).forEach((n) => n.classList.remove("corre", "hecho", "toca"));
+    Object.values(aristas).forEach((A) => { A.base.classList.remove("hecha"); A.pulso.classList.remove("viaja"); });
+    log.innerHTML = ""; escribe.textContent = ""; fase(-1); faseAct = -1; ponerEstado("", "Listo para ejecutar");
+  }
+  async function ejecutar() {
+    const mio = ++turno, sigue = () => vivo && mio === turno;
+    while (sigue()) {
+      limpiar(); await esperar(700); if (!sigue()) return;
+      t0 = performance.now(); ponerEstado("corre", "Ejecutando…");
+      const F = (i) => { fase(i); faseAct = i; faseT = performance.now(); };
+      F(0);
+      await correr("pregunta", 650, "Pregunta recibida"); if (!sigue()) return;
+      viajar("pregunta", "medula"); await esperar(420);
+      await correr("medula", 700, "Médula · cliente Quillay"); if (!sigue()) return;
+      ["bsale", "gmail", "zoho"].forEach((n, i) => setTimeout(() => viajar("medula", n), i * 110));
+      await esperar(380);
+      await Promise.all([correr("bsale", 760, "Bsale · 3 cotizaciones"), esperar(90).then(() => correr("gmail", 820, "Gmail · último correo hace 12 días")), esperar(180).then(() => correr("zoho", 880, "Zoho · contacto Camila"))]);
+      if (!sigue()) return;
+      F(1);
+      ["bsale", "gmail", "zoho"].forEach((n, i) => setTimeout(() => viajar(n, "agente"), i * 110));
+      await esperar(420);
+      N.agente.classList.add("corre");
+      const r = "Tres, por $18,4 M. La más antigua lleva 12 días sin respuesta. ¿Le escribo a Camila?";
+      escribe.classList.add("tecleando");
+      for (let k = 1; k <= r.length && sigue(); k += 2) { escribe.textContent = r.slice(0, k); await esperar(16); }
+      escribe.textContent = r; escribe.classList.remove("tecleando");
+      N.agente.classList.remove("corre"); N.agente.classList.add("hecho"); anotar("Agente · respuesta con 3 fuentes");
+      if (!sigue()) return;
+      F(2);
+      viajar("agente", "aprobar"); await esperar(420);
+      N.aprobar.classList.add("corre"); ponerEstado("corre", "Esperando tu aprobación"); await esperar(1100); if (!sigue()) return;
+      N.aprobar.classList.add("toca"); await esperar(380);
+      N.aprobar.classList.remove("corre", "toca"); N.aprobar.classList.add("hecho"); anotar("Aprobado por ti"); ponerEstado("corre", "Ejecutando…");
+      F(3);
+      ["correo", "tarea", "aviso"].forEach((n, i) => setTimeout(() => viajar("aprobar", n), i * 110));
+      await esperar(380);
+      await Promise.all([correr("correo", 650, "Gmail · correo enviado"), esperar(90).then(() => correr("tarea", 700)), esperar(180).then(() => correr("aviso", 760, "Slack · aviso en #ventas"))]);
+      fase(4); faseAct = 4; ponerEstado("listo", `Completado · ${seg()} s`);
+      await esperar(4200);
+    }
+  }
+  // los pasos de abajo muestran cuánto lleva cada fase
+  bucleVisible(wf, () => { if (faseAct >= 0 && faseAct < 4) pasos[faseAct].style.setProperty("--prog", clamp((performance.now() - faseT) / DUR_FASE[faseAct])); }, 30);
+  $("#wf-correr").addEventListener("click", () => { vivo = true; ejecutar(); });
+  pasos.forEach((li) => $("button", li).addEventListener("click", () => { vivo = true; ejecutar(); }));
+  // el lienzo se mueve un poco con el puntero, como un editor
+  if (!QUIETO && matchMedia("(pointer: fine)").matches) {
+    lienzo.addEventListener("pointermove", (e) => { const r = lienzo.getBoundingClientRect(); grilla.style.transform = `translate(${((e.clientX - r.left) / r.width - .5) * -10}px, ${((e.clientY - r.top) / r.height - .5) * -8}px)`; });
+    lienzo.addEventListener("pointerleave", () => { grilla.style.transform = ""; });
+  }
+  dibujar(); addEventListener("resize", dibujar); document.fonts && document.fonts.ready.then(dibujar);
+  new ResizeObserver(dibujar).observe(grilla);
+  if (QUIETO) { $$(".nodo", wf).forEach((n) => n.classList.add("hecho")); escribe.textContent = "Tres, por $18,4 M. La más antigua lleva 12 días sin respuesta. ¿Le escribo a Camila?"; fase(4); }
+  else alVer(wf, () => { if (!vivo) { vivo = true; ejecutar(); } }, () => { vivo = false; turno++; }, .25);
 }
 
 /* ── Seguridad: cada tarjeta muestra lo suyo ── */

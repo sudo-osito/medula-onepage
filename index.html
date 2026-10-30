@@ -122,52 +122,53 @@
         <h2 class="t arma" id="h-cmp">La misma empresa. <span class="gris">Otra forma de trabajar.</span></h2>
         <p class="bajada" data-r>Médula transforma datos dispersos en información confiable y acciones coordinadas que optimizan recursos, potencian equipos y agilizan decisiones.</p>
       </div>
+      <!-- Una línea al centro baja con el scroll; en cada fila el impulso viaja primero a «Sin Médula» (rojo) y luego a «Con Médula» (azul) -->
       <div class="vs" id="vs" role="table" aria-label="Sin Médula y con Médula">
-        <div class="vs__panel vs__panel--sin" aria-hidden="true"></div>
-        <div class="vs__panel" aria-hidden="true"><i class="vs__nervio" id="nervio"></i></div>
-        <div class="vs__cab" role="row"><span role="columnheader" class="vs__sin-cab">Sin Médula</span><span role="columnheader"></span><span role="columnheader" class="vs__con-cab"><img src="recursos/marca/medula-simbolo.svg" alt="">Con Médula</span></div>
-        <div class="vs__fila" role="row" style="--i:0"><span class="vs__sin" role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</span><b class="vs__tema" role="rowheader">La información</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Conectada en un solo ecosistema inteligente.</span></div>
-        <div class="vs__fila" role="row" style="--i:1"><span class="vs__sin" role="cell">Responde sin conocer tu empresa.</span><b class="vs__tema" role="rowheader">La IA de tu equipo</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>ChatGPT y Claude trabajan con el contexto de tu empresa.</span></div>
-        <div class="vs__fila" role="row" style="--i:2"><span class="vs__sin" role="cell">Se buscan, copian y pegan a mano.</span><b class="vs__tema" role="rowheader">Las tareas repetitivas</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Agentes de IA automatizan procesos y ejecutan acciones.</span></div>
-        <div class="vs__fila" role="row" style="--i:3"><span class="vs__sin" role="cell">Personas y sistemas trabajan aislados.</span><b class="vs__tema" role="rowheader">El trabajo en equipo</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Personas y agentes coordinados, con un mismo contexto.</span></div>
-        <div class="vs__fila" role="row" style="--i:4"><span class="vs__sin" role="cell">Nadie sabe de dónde salió el dato.</span><b class="vs__tema" role="rowheader">Cada respuesta</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Cita sus fuentes: Bsale, Gmail, tu CRM.</span></div>
-        <div class="vs__fila" role="row" style="--i:5"><span class="vs__sin" role="cell">Llegan tarde, después de buscar la información.</span><b class="vs__tema" role="rowheader">Las decisiones</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Más ágiles y oportunas, con información confiable.</span></div>
+        <i class="vs__eje" aria-hidden="true"><i class="vs__llena" id="vs-llena"></i><i class="vs__chispa" id="vs-chispa"></i></i>
+        <div class="vs__cab" role="row"><span class="vs__lado vs__lado--sin" role="columnheader"><i></i>Sin Médula</span><span role="columnheader"></span><span class="vs__lado vs__lado--con" role="columnheader"><img src="recursos/marca/medula-simbolo.svg" alt="">Con Médula</span></div>
+        <div class="vs__fila" role="row"><div class="vs__sin" role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</div><div class="vs__mid"><i class="vs__rama vs__rama--sin"></i><b class="vs__tema" role="rowheader">La información</b><i class="vs__rama vs__rama--con"></i></div><div class="vs__con" role="cell">Conectada en un solo ecosistema inteligente.</div></div>
+        <div class="vs__fila" role="row"><div class="vs__sin" role="cell">Responde sin conocer tu empresa.</div><div class="vs__mid"><i class="vs__rama vs__rama--sin"></i><b class="vs__tema" role="rowheader">La IA de tu equipo</b><i class="vs__rama vs__rama--con"></i></div><div class="vs__con" role="cell">ChatGPT y Claude trabajan con el contexto de tu empresa.</div></div>
+        <div class="vs__fila" role="row"><div class="vs__sin" role="cell">Se buscan, copian y pegan a mano.</div><div class="vs__mid"><i class="vs__rama vs__rama--sin"></i><b class="vs__tema" role="rowheader">Las tareas repetitivas</b><i class="vs__rama vs__rama--con"></i></div><div class="vs__con" role="cell">Agentes de IA automatizan procesos y ejecutan acciones.</div></div>
+        <div class="vs__fila" role="row"><div class="vs__sin" role="cell">Personas y sistemas trabajan aislados.</div><div class="vs__mid"><i class="vs__rama vs__rama--sin"></i><b class="vs__tema" role="rowheader">El trabajo en equipo</b><i class="vs__rama vs__rama--con"></i></div><div class="vs__con" role="cell">Personas y agentes coordinados, con un mismo contexto.</div></div>
+        <div class="vs__fila" role="row"><div class="vs__sin" role="cell">Nadie sabe de dónde salió el dato.</div><div class="vs__mid"><i class="vs__rama vs__rama--sin"></i><b class="vs__tema" role="rowheader">Cada respuesta</b><i class="vs__rama vs__rama--con"></i></div><div class="vs__con" role="cell">Cita sus fuentes: Bsale, Gmail, tu CRM.</div></div>
+        <div class="vs__fila" role="row"><div class="vs__sin" role="cell">Llegan tarde, después de buscar la información.</div><div class="vs__mid"><i class="vs__rama vs__rama--sin"></i><b class="vs__tema" role="rowheader">Las decisiones</b><i class="vs__rama vs__rama--con"></i></div><div class="vs__con" role="cell">Más ágiles y oportunas, con información confiable.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- 04 · Cómo funciona: dos tarjetas; a la izquierda la conversación, a la derecha los pasos que se despliegan -->
+  <!-- 04 · Cómo funciona: el flujo de Médula ejecutándose -->
   <section class="como" id="como" aria-labelledby="h-como">
     <div class="envoltura">
       <div class="cab">
         <span class="tag" data-r><b>03</b>Cómo funciona</span>
         <h2 class="t arma" id="h-como">Personas y agentes de IA, <span class="gris">con un mismo contexto.</span></h2>
       </div>
-      <div class="como__in" id="como-in">
-        <div class="carta carta--demo">
-          <div class="chat" id="chat" data-fase="0" aria-live="polite">
-            <div class="chat__cab"><img src="recursos/marca/medula-simbolo.svg" alt="">Médula<span>Ejemplo</span></div>
-            <div class="msj chat__yo">¿Qué cotizaciones de Quillay siguen abiertas?</div>
-            <div class="msj chat__lite" data-f="1"><span class="isla__sim isla__sim--chico"><img src="recursos/marca/medula-simbolo-blanco.svg" alt=""><i></i></span><span>Revisando Bsale, Gmail y Zoho…</span></div>
-            <div class="msj chat__resp" data-f="2">Tres, por <b>$18,4 M</b>. La más antigua lleva <b>12 días</b> sin respuesta. ¿Le escribo a Camila para hacer seguimiento?
-              <div class="cita"><span><img src="recursos/logos/bsale.png" alt="">Bsale</span><span><img src="recursos/logos/gmail.svg" alt="">Gmail</span><span><img src="recursos/logos/zoho.svg" alt="">Zoho CRM</span></div>
-              <div class="chat__botones"><span class="si">Sí, escríbele</span><span>Ahora no</span></div>
-            </div>
-            <div class="msj chat__hecho" data-f="4"><svg><use href="#i-ok"/></svg>Correo enviado a Camila · seguimiento creado en Zoho</div>
+      <!-- El flujo de Médula, como un editor de flujos: los nodos se ejecutan solos, los impulsos recorren las conexiones y el registro cuenta qué pasó -->
+      <div class="wf" id="wf">
+        <div class="wf__barra">
+          <div class="wf__titulo"><img src="recursos/marca/medula-simbolo.svg" alt=""><span>Flujo</span><b>Seguimiento de cotizaciones</b><em>Ejemplo</em></div>
+          <div class="wf__estado" id="wf-estado"><i></i><span>Listo para ejecutar</span></div>
+          <button class="wf__correr" id="wf-correr" type="button"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5l12 7.5-12 7.5z"/></svg>Ejecutar</button>
+        </div>
+        <div class="wf__lienzo" id="wf-lienzo">
+          <div class="wf__grilla" id="wf-grilla">
+            <svg class="wf__aristas" id="wf-aristas" aria-hidden="true"></svg>
+            <div class="wf__col" data-fase="0"><div class="nodo" data-n="pregunta"><i class="puerto puerto--in"></i><span class="nodo__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5.5h16v10H9l-4.5 3.5V5.5z"/></svg></span><div class="nodo__txt"><small>Disparador</small><b>Pregunta del equipo</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">«¿Qué cotizaciones de Quillay siguen abiertas?»<span class='nodo__desde'><img src="recursos/logos/whatsapp.svg" alt=""><img src="recursos/logos/openai.svg" alt=""><img src="recursos/logos/claude.svg" alt=""></span></div><i class="puerto puerto--out"></i></div></div>
+            <div class="wf__col" data-fase="0"><div class="nodo nodo--medula" data-n="medula"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/marca/medula-simbolo-blanco.svg" alt=""></span><div class="nodo__txt"><small>Contexto de la empresa</small><b>Médula</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">Cliente Quillay · 3 sistemas</div><i class="puerto puerto--out"></i></div></div>
+            <div class="wf__col wf__col--grupo" data-fase="0"><div class="nodo" data-n="bsale"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/bsale.png" alt=""></span><div class="nodo__txt"><small>Bsale</small><b>Leer cotizaciones</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">3 abiertas · $18,4 M</div><i class="puerto puerto--out"></i></div><div class="nodo" data-n="gmail"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/gmail.svg" alt=""></span><div class="nodo__txt"><small>Gmail</small><b>Buscar correos</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">Último: hace 12 días</div><i class="puerto puerto--out"></i></div><div class="nodo" data-n="zoho"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/zoho.svg" alt=""></span><div class="nodo__txt"><small>Zoho CRM</small><b>Ficha del cliente</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">Contacto: Camila</div><i class="puerto puerto--out"></i></div></div>
+            <div class="wf__col" data-fase="1"><div class="nodo nodo--agente" data-n="agente"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/claude.svg" alt=""><img src="recursos/logos/openai.svg" alt=""></span><div class="nodo__txt"><small>Agente de IA</small><b>Arma la respuesta</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal"><span class='nodo__escribe' id='wf-escribe'></span></div><i class="puerto puerto--out"></i></div></div>
+            <div class="wf__col" data-fase="2"><div class="nodo nodo--aprobar" data-n="aprobar"><i class="puerto puerto--in"></i><span class="nodo__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></svg></span><div class="nodo__txt"><small>Aprobación</small><b>Decides tú</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal"><span class='nodo__botones'><span class='si'>Aprobar</span><span>Ahora no</span></span><span class='nodo__aprobado'>Aprobado por ti</span></div><i class="puerto puerto--out"></i></div></div>
+            <div class="wf__col wf__col--grupo" data-fase="3"><div class="nodo" data-n="correo"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/gmail.svg" alt=""></span><div class="nodo__txt"><small>Gmail</small><b>Enviar seguimiento</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">Enviado a Camila</div><i class="puerto puerto--out"></i></div><div class="nodo" data-n="tarea"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/zoho.svg" alt=""></span><div class="nodo__txt"><small>Zoho CRM</small><b>Crear tarea</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">Seguimiento en 2 días</div><i class="puerto puerto--out"></i></div><div class="nodo" data-n="aviso"><i class="puerto puerto--in"></i><span class="nodo__ic"><img src="recursos/logos/slack.svg" alt=""></span><div class="nodo__txt"><small>Slack</small><b>Avisar a Ventas</b></div><span class="nodo__ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div class="nodo__sal">Publicado en #ventas</div><i class="puerto puerto--out"></i></div></div>
           </div>
-          <div class="desde">Úsalo desde <span><img src="recursos/logos/claude.svg" alt="">Claude</span><span><img src="recursos/logos/openai.svg" alt="">ChatGPT</span></div>
+          <div class="wf__log" aria-hidden="true"><span>Registro</span><ol id="wf-log"></ol></div>
         </div>
-        <div class="carta carta--pasos">
-          <p class="carta__rot">Pregunta. Médula actúa.</p>
-          <h3 class="carta__t">Busca en cada sistema, cita sus fuentes y, cuando lo apruebas, ejecuta.</h3>
-          <ol class="pasos">
-            <li class="paso activo"><button><span class="paso__n">1</span><b>Conecta</b><p>Integra tus aplicaciones, sistemas e información en un solo ecosistema.</p><i class="paso__barra"></i></button></li>
-            <li class="paso"><button><span class="paso__n">2</span><b>Entiende</b><p>Convierte información dispersa en conocimiento útil, y cita de dónde sale.</p><i class="paso__barra"></i></button></li>
-            <li class="paso"><button><span class="paso__n">3</span><b>Decides tú</b><p>Médula propone y confirma contigo antes de escribir en tus sistemas.</p><i class="paso__barra"></i></button></li>
-            <li class="paso"><button><span class="paso__n">4</span><b>Actúa</b><p>Los agentes coordinan tareas, automatizan procesos y ejecutan la acción.</p><i class="paso__barra"></i></button></li>
-          </ol>
-          <p class="paso__desc" id="paso-desc" aria-hidden="true"></p>
-        </div>
+        <ol class="wf__pasos" id="wf-pasos">
+          <li><button type="button"><span class="wf__n">01</span><b>Conecta</b><p>Integra tus aplicaciones, sistemas e información en un solo ecosistema.</p><i></i></button></li>
+          <li><button type="button"><span class="wf__n">02</span><b>Entiende</b><p>Convierte información dispersa en conocimiento útil, y cita de dónde sale.</p><i></i></button></li>
+          <li><button type="button"><span class="wf__n">03</span><b>Decides tú</b><p>Médula propone y confirma contigo antes de escribir en tus sistemas.</p><i></i></button></li>
+          <li><button type="button"><span class="wf__n">04</span><b>Actúa</b><p>Los agentes coordinan tareas, automatizan procesos y ejecutan la acción.</p><i></i></button></li>
+        </ol>
+        <div class="desde">Úsalo desde <span><img src="recursos/logos/claude.svg" alt="">Claude</span><span><img src="recursos/logos/openai.svg" alt="">ChatGPT</span></div>
       </div>
     </div>
   </section>
