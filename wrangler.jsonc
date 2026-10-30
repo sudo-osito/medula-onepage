@@ -1,0 +1,6 @@
+// Cloudflare Workers · one-page estática (web-medula)
+{
+  "name": "web-medula",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./" }
+}
