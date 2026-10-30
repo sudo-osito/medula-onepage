@@ -62,11 +62,11 @@ void main(){
   float umbral = hash(floor(coord)) - 0.5; float amplitud = uPuntillismo * (0.1 + 0.16 * smoothstep(0.0, 0.25, d));
   gl_FragColor = vec4(degradado(clamp(d + umbral * amplitud, 0.0, 1.0)), 1.0);
 }`;
-const AZULES = { uNucleo: "#1d3a7c", uMedula: "#294d9c", uImpulso: "#3a63be", uAire: "#7d9bda", uBruma: "#cbd7f0", uHielo: "#f1f4fb" };
+const AZULES = { uNucleo: "#243d7a", uMedula: "#34529d", uImpulso: "#4466b4", uAire: "#8299d2", uBruma: "#cdd6ee", uHielo: "#f2f4fa" };
 const hexA = (x) => [1, 3, 5].map((i) => parseInt(x.slice(i, i + 2), 16) / 255);
 function aura(cv, op) {
   const gl = cv.getContext("webgl2", { antialias: false, alpha: false, powerPreference: "high-performance" });
-  if (!gl || !gl.getExtension("EXT_color_buffer_float")) { const [x, y] = op.centro(); cv.style.background = `radial-gradient(50% 60% at ${x * 100}% ${(1 - y) * 100}%, #294d9c, #7d9bda 40%, #cbd7f0 65%, #fff)`; return; }
+  if (!gl || !gl.getExtension("EXT_color_buffer_float")) { const [x, y] = op.centro(); cv.style.background = `radial-gradient(50% 60% at ${x * 100}% ${(1 - y) * 100}%, #34529d, #8299d2 40%, #cdd6ee 65%, #fff)`; return; }
   const sh = (tipo, src) => { const s = gl.createShader(tipo); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s)); return s; };
   const prog = (f) => { const p = gl.createProgram(); gl.attachShader(p, sh(gl.VERTEX_SHADER, AURA_V)); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, f)); gl.bindAttribLocation(p, 0, "p"); gl.linkProgram(p); return p; };
   const pc = prog(CAMPO_F), pp = prog(PUNTOS_F);
