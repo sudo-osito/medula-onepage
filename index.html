@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="recursos/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="recursos/fuentes/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="medula.css">
+<link rel="stylesheet" href="medula.css?v=2">
 </head>
 <body>
 
@@ -26,7 +26,7 @@
 <!-- La navegación es una isla flotante: se encoge al bajar -->
 <header class="nav" id="nav">
   <div class="nav__isla">
-    <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="20" height="23"><b>Médula</b></a>
+    <a class="logo" href="#inicio" aria-label="Médula, inicio"><img class="logo__iso" src="recursos/marcas/medula-isotipo.svg" alt="" width="24" height="26"><img class="logo__palabra" src="recursos/marcas/medula-palabra.svg" alt="Médula" width="96" height="14"></a>
     <nav class="nav__links" aria-label="Secciones">
       <a href="#hoy">Qué es</a>
       <a href="#comparativa">Con Médula</a>
@@ -58,10 +58,10 @@
       <div class="heroe__sim" id="sim" aria-hidden="true">
         <i class="onda"></i><i class="onda"></i><i class="onda"></i>
         <span class="heroe__halo"></span>
-        <img src="recursos/medula-marca-blanca.svg" alt="">
+        <img src="recursos/marca/medula-simbolo-blanco.svg" alt="">
       </div>
       <div class="isla" id="isla" aria-live="polite">
-        <span class="isla__sim"><img src="recursos/medula-marca-blanca.svg" alt=""><i></i></span>
+        <span class="isla__sim"><img src="recursos/marca/medula-simbolo-blanco.svg" alt=""><i></i></span>
         <span class="isla__txt" id="isla-txt">Médula</span>
         <span class="isla__app" id="isla-app"></span>
         <i class="isla__barra" id="isla-barra"></i>
@@ -106,7 +106,7 @@
         </div>
       </div>
       <div class="esc__fin" id="esc-fin">
-        <div class="esc__sim"><img src="recursos/medula-marca.svg" alt=""></div>
+        <div class="esc__sim"><img src="recursos/marca/medula-simbolo.svg" alt=""></div>
         <p class="frase" id="frase">Imagina que todas las aplicaciones, la información y las personas de tu empresa pudieran trabajar conectadas.</p>
         <p class="eso" id="eso">Eso es Médula.</p>
       </div>
@@ -125,7 +125,7 @@
       <div class="vs" id="vs" role="table" aria-label="Sin Médula y con Médula">
         <div class="vs__panel vs__panel--sin" aria-hidden="true"></div>
         <div class="vs__panel" aria-hidden="true"><i class="vs__nervio" id="nervio"></i></div>
-        <div class="vs__cab" role="row"><span role="columnheader" class="vs__sin-cab">Sin Médula</span><span role="columnheader"></span><span role="columnheader" class="vs__con-cab"><img src="recursos/medula-marca.svg" alt="">Con Médula</span></div>
+        <div class="vs__cab" role="row"><span role="columnheader" class="vs__sin-cab">Sin Médula</span><span role="columnheader"></span><span role="columnheader" class="vs__con-cab"><img src="recursos/marca/medula-simbolo.svg" alt="">Con Médula</span></div>
         <div class="vs__fila" role="row" style="--i:0"><span class="vs__sin" role="cell">Dispersa entre aplicaciones, planillas, correos y personas.</span><b class="vs__tema" role="rowheader">La información</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Conectada en un solo ecosistema inteligente.</span></div>
         <div class="vs__fila" role="row" style="--i:1"><span class="vs__sin" role="cell">Responde sin conocer tu empresa.</span><b class="vs__tema" role="rowheader">La IA de tu equipo</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>ChatGPT y Claude trabajan con el contexto de tu empresa.</span></div>
         <div class="vs__fila" role="row" style="--i:2"><span class="vs__sin" role="cell">Se buscan, copian y pegan a mano.</span><b class="vs__tema" role="rowheader">Las tareas repetitivas</b><span class="vs__con" role="cell"><i class="vs__nodo"></i>Agentes de IA automatizan procesos y ejecutan acciones.</span></div>
@@ -146,9 +146,9 @@
       <div class="como__in" id="como-in">
         <div class="carta carta--demo">
           <div class="chat" id="chat" data-fase="0" aria-live="polite">
-            <div class="chat__cab"><img src="recursos/medula-marca.svg" alt="">Médula<span>Ejemplo</span></div>
+            <div class="chat__cab"><img src="recursos/marca/medula-simbolo.svg" alt="">Médula<span>Ejemplo</span></div>
             <div class="msj chat__yo">¿Qué cotizaciones de Quillay siguen abiertas?</div>
-            <div class="msj chat__lite" data-f="1"><span class="isla__sim isla__sim--chico"><img src="recursos/medula-marca-blanca.svg" alt=""><i></i></span><span>Revisando Bsale, Gmail y Zoho…</span></div>
+            <div class="msj chat__lite" data-f="1"><span class="isla__sim isla__sim--chico"><img src="recursos/marca/medula-simbolo-blanco.svg" alt=""><i></i></span><span>Revisando Bsale, Gmail y Zoho…</span></div>
             <div class="msj chat__resp" data-f="2">Tres, por <b>$18,4 M</b>. La más antigua lleva <b>12 días</b> sin respuesta. ¿Le escribo a Camila para hacer seguimiento?
               <div class="cita"><span><img src="recursos/logos/bsale.png" alt="">Bsale</span><span><img src="recursos/logos/gmail.svg" alt="">Gmail</span><span><img src="recursos/logos/zoho.svg" alt="">Zoho CRM</span></div>
               <div class="chat__botones"><span class="si">Sí, escríbele</span><span>Ahora no</span></div>
@@ -258,8 +258,8 @@
     <div class="envoltura">
       <div class="pie__arriba">
         <div class="pie__marca">
-          <a class="logo" href="#inicio" aria-label="Médula, inicio"><img src="recursos/medula-marca.svg" alt="" width="20" height="23"><b>Médula</b></a>
-          <p>El sistema nervioso de tu empresa.</p>
+          <a class="logo" href="#inicio" aria-label="Médula, inicio"><img class="logo__iso" src="recursos/marcas/medula-isotipo.svg" alt="" width="24" height="26"><img class="logo__palabra" src="recursos/marcas/medula-palabra.svg" alt="Médula" width="96" height="14"></a>
+          <p>El sistema nervioso que conecta tu empresa.</p>
         </div>
         <nav class="pie__cols" aria-label="Mapa del sitio">
           <div><h4>Médula</h4><a href="#hoy">Qué es</a><a href="#comparativa">Con Médula</a><a href="#como">Cómo funciona</a><a href="#seguridad">Seguridad</a></div>
@@ -274,6 +274,6 @@
   </div>
 </main>
 
-<script src="medula.js" type="module"></script>
+<script src="medula.js?v=2" type="module"></script>
 </body>
 </html>
